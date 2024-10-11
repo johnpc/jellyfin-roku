@@ -263,6 +263,27 @@
                         ]
                     },
                     {
+                        "title": "Episode Next Up Behavior",
+                        "description": "What should clicking a Next Up episode do.",
+                        "settingName": "ui.general.episodenextupbehavior",
+                        "type": "radio",
+                        "default": "play",
+                        "options": [
+                            {
+                                "title": "Play Episode Immediately",
+                                "id": "play"
+                            },
+                            {
+                                "title": "View Episode Details",
+                                "id": "episode"
+                            },
+                            {
+                                "title": "View Season Details",
+                                "id": "season"
+                            }
+                        ]
+                    },
+                    {
                         "title": "Hide Clock",
                         "description": "Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.",
                         "settingName": "ui.design.hideclock",
