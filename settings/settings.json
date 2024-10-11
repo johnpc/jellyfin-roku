@@ -298,6 +298,27 @@
                         "default": "365"
                     },
                     {
+                        "title": "OSD Remaining Time",
+                        "description": "How is remaining time represented.  Remaining time shows hours, minutes, and seconds remaining.  Time of day shows what time the video will complete.",
+                        "settingName": "ui.general.osdremainingtime",
+                        "type": "radio",
+                        "default": "remaining",
+                        "options": [
+                            {
+                                "title": "Remaining Time",
+                                "id": "remaining"
+                            },
+                            {
+                                "title": "Time of Day",
+                                "id": "timeofday"
+                            },
+                            {
+                                "title": "Both",
+                                "id": "both"
+                            }
+                        ]
+                    },
+                    {
                         "title": "Rewatching Next Up",
                         "description": "Show already watched episodes in 'Next Up' sections.",
                         "settingName": "ui.details.enablerewatchingnextup",
