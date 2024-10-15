@@ -44,6 +44,7 @@ end sub
 ' Save information from roDeviceInfo to m.global.device
 sub SaveDeviceToGlobal()
     deviceInfo = CreateObject("roDeviceInfo")
+    displayProperties = deviceInfo.GetDisplayProperties()
 
     ' remove special characters
     regex = CreateObject("roRegex", "[^a-zA-Z0-9\ \-\_]", "")
@@ -98,6 +99,7 @@ sub SaveDeviceToGlobal()
     end if
     videoWidth = heightToWidth[videoHeight]
     if extraData <> invalid and extraData = "b10" then bitDepth = 10
+    if bitDepth = 8 and displayProperties.HdrSeamless then bitDepth = 10
     if videoHeight = "4320" then bitDepth = 12
 
     m.global.addFields({
