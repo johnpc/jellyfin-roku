@@ -416,12 +416,7 @@ end function
 function getCodecProfiles() as object
     myGlobal = m.global
     globalUserSettings = myGlobal.session.user.settings
-    displayMaxBitDepth = myGlobal.device.videoBitDepth
-    if displayMaxBitDepth = invalid
-        displayMaxBitDepth = "8"
-    else
-        displayMaxBitDepth = displayMaxBitDepth.toStr()
-    end if
+
     codecProfiles = []
     profileSupport = {
         "h264": {},
@@ -632,12 +627,6 @@ function getCodecProfiles() as object
                 "IsRequired": false
             },
             {
-                "Condition": "LessThanEqual",
-                "Property": "VideoBitDepth",
-                "Value": "8",
-                "IsRequired": false
-            },
-            {
                 "Condition": "EqualsAny",
                 "Property": "VideoProfile",
                 "Value": h264AssProfiles.Keys().join("|"),
@@ -696,13 +685,7 @@ function getCodecProfiles() as object
                     "Property": "VideoLevel",
                     "Value": mpeg2Levels.join("|"),
                     "IsRequired": false
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoBitDepth",
-                    "Value": displayMaxBitDepth,
-                    "IsRequired": false
-                },
+                }
             ]
         }
 
@@ -738,12 +721,6 @@ function getCodecProfiles() as object
             "Type": "Video",
             "Codec": "av1",
             "Conditions": [
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoBitDepth",
-                    "Value": displayMaxBitDepth,
-                    "IsRequired": false
-                },
                 {
                     "Condition": "EqualsAny",
                     "Property": "VideoProfile",
@@ -803,12 +780,6 @@ function getCodecProfiles() as object
             "Type": "Video",
             "Codec": "hevc",
             "Conditions": [
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoBitDepth",
-                    "Value": displayMaxBitDepth,
-                    "IsRequired": false
-                },
                 {
                     "Condition": "NotEquals",
                     "Property": "IsAnamorphic",
@@ -878,12 +849,6 @@ function getCodecProfiles() as object
             "Type": "Video",
             "Codec": "vp9",
             "Conditions": [
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoBitDepth",
-                    "Value": displayMaxBitDepth,
-                    "IsRequired": false
-                },
                 {
                     "Condition": "EqualsAny",
                     "Property": "VideoProfile",
