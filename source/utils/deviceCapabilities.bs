@@ -416,12 +416,7 @@ end function
 function getCodecProfiles() as object
     myGlobal = m.global
     globalUserSettings = myGlobal.session.user.settings
-    displayMaxBitDepth = myGlobal.device.videoBitDepth
-    if displayMaxBitDepth = invalid
-        displayMaxBitDepth = "8"
-    else
-        displayMaxBitDepth = displayMaxBitDepth.toStr()
-    end if
+
     codecProfiles = []
     profileSupport = {
         "h264": {},
@@ -562,27 +557,44 @@ function getCodecProfiles() as object
     hevcVideoRangeTypes = "SDR"
     vp9VideoRangeTypes = "SDR"
     av1VideoRangeTypes = "SDR"
+    canPlayDovi = false
 
     if canPlay4k()
         dp = di.GetDisplayProperties()
+
+        if dp.DolbyVision
+            canPlayDovi = true
+
+            h264VideoRangeTypes = h264VideoRangeTypes + "|DOVI|DOVIWithSDR"
+            hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI|DOVIWithSDR"
+            av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI|DOVIWithSDR"
+        end if
+
         if dp.Hdr10
             hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10"
             vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10"
             av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10"
+
+            if canPlayDovi
+                hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVIWithHDR10"
+                av1VideoRangeTypes = av1VideoRangeTypes + "|DOVIWithHDR10"
+            end if
         end if
+
         if dp.Hdr10Plus
             av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10+"
         end if
+
         if dp.HLG
             hevcVideoRangeTypes = hevcVideoRangeTypes + "|HLG"
             vp9VideoRangeTypes = vp9VideoRangeTypes + "|HLG"
             av1VideoRangeTypes = av1VideoRangeTypes + "|HLG"
-        end if
-        if dp.DolbyVision
-            h264VideoRangeTypes = h264VideoRangeTypes + "|DOVI"
-            hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI"
-            'vp9VideoRangeTypes = vp9VideoRangeTypes + ",DOVI" no evidence that vp9 can hold DOVI
-            av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI"
+
+            if canPlayDovi
+                hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVIWithHLG"
+                vp9VideoRangeTypes = vp9VideoRangeTypes + "|DOVIWithHLG"
+                av1VideoRangeTypes = av1VideoRangeTypes + "|DOVIWithHLG"
+            end if
         end if
     end if
 
@@ -612,12 +624,6 @@ function getCodecProfiles() as object
                 "Condition": "NotEquals",
                 "Property": "IsAnamorphic",
                 "Value": "true",
-                "IsRequired": false
-            },
-            {
-                "Condition": "LessThanEqual",
-                "Property": "VideoBitDepth",
-                "Value": "8",
                 "IsRequired": false
             },
             {
@@ -679,13 +685,7 @@ function getCodecProfiles() as object
                     "Property": "VideoLevel",
                     "Value": mpeg2Levels.join("|"),
                     "IsRequired": false
-                },
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoBitDepth",
-                    "Value": displayMaxBitDepth,
-                    "IsRequired": false
-                },
+                }
             ]
         }
 
@@ -721,12 +721,6 @@ function getCodecProfiles() as object
             "Type": "Video",
             "Codec": "av1",
             "Conditions": [
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoBitDepth",
-                    "Value": displayMaxBitDepth,
-                    "IsRequired": false
-                },
                 {
                     "Condition": "EqualsAny",
                     "Property": "VideoProfile",
@@ -786,12 +780,6 @@ function getCodecProfiles() as object
             "Type": "Video",
             "Codec": "hevc",
             "Conditions": [
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoBitDepth",
-                    "Value": displayMaxBitDepth,
-                    "IsRequired": false
-                },
                 {
                     "Condition": "NotEquals",
                     "Property": "IsAnamorphic",
@@ -861,12 +849,6 @@ function getCodecProfiles() as object
             "Type": "Video",
             "Codec": "vp9",
             "Conditions": [
-                {
-                    "Condition": "LessThanEqual",
-                    "Property": "VideoBitDepth",
-                    "Value": displayMaxBitDepth,
-                    "IsRequired": false
-                },
                 {
                     "Condition": "EqualsAny",
                     "Property": "VideoProfile",
