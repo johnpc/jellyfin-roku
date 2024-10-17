@@ -1,11 +1,12 @@
 sub init()
     m.content = m.top.findNode("content")
+    appVersion = m.global.app.version
 
     setPalette()
 
     m.top.id = "OKDialog"
     m.top.height = 900
-    m.top.title = tr("Welcome to version") + " " + m.global.app.version
+    m.top.title = tr("Welcome to version") + " " + appVersion
     m.top.buttons = [tr("OK")]
 
     dialogStyles = {
@@ -27,7 +28,7 @@ sub init()
 
     textLine = m.content.CreateChild("StdDlgMultiStyleTextItem")
     textLine.drawingStyles = dialogStyles
-    textLine.text = tr("To view a complete list of changes visit") + " <url>https://github.com/jellyfin/jellyfin-roku/releases/tag/v" + m.global.app.version + "</url>"
+    textLine.text = tr("To view a complete list of changes visit") + " <url>https://github.com/jellyfin/jellyfin-roku/releases/tag/v" + appVersion + "</url>"
 end sub
 
 sub setPalette()
