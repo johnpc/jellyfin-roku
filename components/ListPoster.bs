@@ -17,10 +17,10 @@ sub init()
 
     ' Randomize the background colors
     backdropColor = "#00a4db" ' set default in case global var is invalid
-    localGlobal = m.global
+    myGlobal = m.global
 
-    if isValid(localGlobal) and isValid(localGlobal.constants) and isValid(localGlobal.constants.poster_bg_pallet)
-        posterBackgrounds = localGlobal.constants.poster_bg_pallet
+    if isValid(myGlobal) and isValid(myGlobal.constants) and isValid(myGlobal.constants.poster_bg_pallet)
+        posterBackgrounds = myGlobal.constants.poster_bg_pallet
         backdropColor = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
     end if
 
@@ -65,8 +65,9 @@ sub itemContentChanged() as void
     m.poster = m.top.findNode("poster")
     itemData = m.top.itemContent
     m.title.text = itemData.title
+    userSettings = m.global.session.user.settings
 
-    if m.global.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
+    if not userSettings["ui.tvshows.disableUnwatchedEpisodeCount"]
         if isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
             if itemData.json.UserData.UnplayedItemCount > 0
                 m.unplayedCount.visible = true
@@ -94,7 +95,7 @@ sub itemContentChanged() as void
 
     imageUrl = itemData.posterURL
 
-    if m.global.session.user.settings["ui.tvshows.blurunwatched"] = true
+    if userSettings["ui.tvshows.blurunwatched"]
         if itemData.json.lookup("Type") = "Episode" and isValid(itemData.json.userdata)
             if not itemData.json.userdata.played
                 imageUrl = imageUrl + "&blur=15"
@@ -116,7 +117,7 @@ sub focusChanged()
         m.staticTitle.visible = false
         m.title.visible = true
         ' text to speech for accessibility
-        if m.global.device.isAudioGuideEnabled = true
+        if m.global.device.isAudioGuideEnabled
             txt2Speech = CreateObject("roTextToSpeech")
             txt2Speech.Flush()
             txt2Speech.Say(m.title.text)

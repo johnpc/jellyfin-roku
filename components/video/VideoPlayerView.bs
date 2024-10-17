@@ -6,6 +6,7 @@ sub init()
     m.log = log.Logger("VideoPlayerView")
     ' Hide the overhang on init to prevent showing 2 clocks
     m.top.getScene().findNode("overhang").visible = false
+    userSettings = m.global.session.user.settings
     m.currentItem = m.global.queueManager.callFunc("getCurrentItem")
 
     m.top.id = m.currentItem.id
@@ -45,7 +46,7 @@ sub init()
     m.top.transcodeReasons = []
     m.bufferCheckTimer.duration = 30
 
-    if m.global.session.user.settings["ui.design.hideclock"] = true
+    if userSettings["ui.design.hideclock"] = true
         clockNode = findNodeBySubtype(m.top, "clock")
         if clockNode[0] <> invalid then clockNode[0].parent.removeChild(clockNode[0].node)
     end if
@@ -54,7 +55,7 @@ sub init()
     m.nextEpisodeButton = m.top.findNode("nextEpisode")
     m.nextEpisodeButton.text = tr("Next Episode")
     m.nextEpisodeButton.setFocus(false)
-    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
+    m.nextupbuttonseconds = userSettings["playback.nextupbuttonseconds"].ToInt()
 
     m.showNextEpisodeButtonAnimation = m.top.findNode("showNextEpisodeButton")
     m.hideNextEpisodeButtonAnimation = m.top.findNode("hideNextEpisodeButton")
@@ -99,24 +100,28 @@ end sub
 ' @param {string} action - skip action to take
 sub handleItemSkipAction(action as string)
     if action = "itemnext"
+        queueManager = m.global.queueManager
+
         ' If there is something next in the queue, play it
-        if m.global.queueManager.callFunc("getPosition") < m.global.queueManager.callFunc("getCount") - 1
+        if queueManager.callFunc("getPosition") < queueManager.callFunc("getCount") - 1
             m.top.control = "stop"
             m.global.sceneManager.callFunc("clearPreviousScene")
-            m.global.queueManager.callFunc("moveForward")
-            m.global.queueManager.callFunc("playQueue")
+            queueManager.callFunc("moveForward")
+            queueManager.callFunc("playQueue")
         end if
 
         return
     end if
 
     if action = "itemback"
+        queueManager = m.global.queueManager
+
         ' If there is something previous in the queue, play it
-        if m.global.queueManager.callFunc("getPosition") > 0
+        if queueManager.callFunc("getPosition") > 0
             m.top.control = "stop"
             m.global.sceneManager.callFunc("clearPreviousScene")
-            m.global.queueManager.callFunc("moveBack")
-            m.global.queueManager.callFunc("playQueue")
+            queueManager.callFunc("moveBack")
+            queueManager.callFunc("playQueue")
         end if
 
         return
@@ -520,9 +525,9 @@ sub showNextEpisodeButton()
     if m.top.content.contenttype <> 4 then return ' only display when content is type "Episode"
     if m.nextupbuttonseconds = 0 then return ' is the button disabled?
     if m.nextEpisodeButton.opacity <> 0 then return
-    userSession = m.global.session.user
-    if userSession.settings["playback.playnextepisode"] = "disabled" then return
-    if userSession.settings["playback.playnextepisode"] = "webclient" and not userSession.Configuration.EnableNextEpisodeAutoPlay then return
+    userSettings = m.global.session.user.settings
+    if userSettings["playback.playnextepisode"] = "disabled" then return
+    if userSettings["playback.playnextepisode"] = "webclient" and not m.global.session.user.Configuration.EnableNextEpisodeAutoPlay then return
 
     m.nextEpisodeButton.visible = true
     m.showNextEpisodeButtonAnimation.control = "start"

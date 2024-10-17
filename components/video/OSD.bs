@@ -35,7 +35,6 @@ sub init()
     m.optionControls.buttonFocused = m.optionControls.getChildCount() - 1
 
     m.videoControls.getChild(m.defaultButtonIndex).focus = true
-    m.deviceInfo = CreateObject("roDeviceInfo")
 end sub
 
 ' onProgressPercentageChanged: Handler for changes to m.top.progressPercentage param
@@ -211,7 +210,8 @@ sub inactiveCheck()
         return
     end if
 
-    if m.deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
+    deviceInfo = CreateObject("roDeviceInfo")
+    if deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
         m.top.action = "hide"
     end if
 end sub

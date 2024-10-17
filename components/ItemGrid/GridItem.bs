@@ -42,10 +42,10 @@ end sub
 
 sub itemContentChanged()
     m.backdrop.blendColor = "#00a4db" ' set default in case global var is invalid
-    localGlobal = m.global
+    myGlobal = m.global
 
-    if isValid(localGlobal) and isValid(localGlobal.constants) and isValid(localGlobal.constants.poster_bg_pallet)
-        posterBackgrounds = localGlobal.constants.poster_bg_pallet
+    if isValid(myGlobal) and isValid(myGlobal.constants) and isValid(myGlobal.constants.poster_bg_pallet)
+        posterBackgrounds = myGlobal.constants.poster_bg_pallet
         m.backdrop.blendColor = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
     end if
 
@@ -62,8 +62,8 @@ sub itemContentChanged()
         m.itemIcon.uri = itemData.iconUrl
         m.itemText.text = itemData.Title
     else if itemData.type = "Series"
-        if isValid(localGlobal) and isValid(localGlobal.session) and isValid(localGlobal.session.user) and isValid(localGlobal.session.user.settings)
-            if localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
+        if isValid(myGlobal) and isValid(myGlobal.session) and isValid(myGlobal.session.user) and isValid(myGlobal.session.user.settings)
+            if myGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"] = false
                 if isValid(itemData.json) and isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
                     if itemData.json.UserData.UnplayedItemCount > 0
                         m.unplayedCount.visible = true
