@@ -414,7 +414,9 @@ function getContainerProfiles() as object
 end function
 
 function getCodecProfiles() as object
-    globalUserSettings = m.global.session.user.settings
+    myGlobal = m.global
+    globalUserSettings = myGlobal.session.user.settings
+
     codecProfiles = []
     profileSupport = {
         "h264": {},
@@ -449,6 +451,12 @@ function getCodecProfiles() as object
                                     "Condition": "NotEquals",
                                     "Property": "AudioProfile",
                                     "Value": "Main",
+                                    "IsRequired": true
+                                },
+                                {
+                                    "Condition": "NotEquals",
+                                    "Property": "AudioProfile",
+                                    "Value": "HE-AAC",
                                     "IsRequired": true
                                 },
                                 {
@@ -549,26 +557,45 @@ function getCodecProfiles() as object
     hevcVideoRangeTypes = "SDR"
     vp9VideoRangeTypes = "SDR"
     av1VideoRangeTypes = "SDR"
+    canPlayDovi = false
 
-    dp = di.GetDisplayProperties()
-    if dp.Hdr10
-        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10"
-        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10"
-        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10"
-    end if
-    if dp.Hdr10Plus
-        av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10+"
-    end if
-    if dp.HLG
-        hevcVideoRangeTypes = hevcVideoRangeTypes + "|HLG"
-        vp9VideoRangeTypes = vp9VideoRangeTypes + "|HLG"
-        av1VideoRangeTypes = av1VideoRangeTypes + "|HLG"
-    end if
-    if dp.DolbyVision
-        h264VideoRangeTypes = h264VideoRangeTypes + "|DOVI"
-        hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI"
-        'vp9VideoRangeTypes = vp9VideoRangeTypes + ",DOVI" no evidence that vp9 can hold DOVI
-        av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI"
+    if canPlay4k()
+        dp = di.GetDisplayProperties()
+
+        if dp.DolbyVision
+            canPlayDovi = true
+
+            h264VideoRangeTypes = h264VideoRangeTypes + "|DOVI|DOVIWithSDR"
+            hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVI|DOVIWithSDR"
+            av1VideoRangeTypes = av1VideoRangeTypes + "|DOVI|DOVIWithSDR"
+        end if
+
+        if dp.Hdr10
+            hevcVideoRangeTypes = hevcVideoRangeTypes + "|HDR10"
+            vp9VideoRangeTypes = vp9VideoRangeTypes + "|HDR10"
+            av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10"
+
+            if canPlayDovi
+                hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVIWithHDR10"
+                av1VideoRangeTypes = av1VideoRangeTypes + "|DOVIWithHDR10"
+            end if
+        end if
+
+        if dp.Hdr10Plus
+            av1VideoRangeTypes = av1VideoRangeTypes + "|HDR10+"
+        end if
+
+        if dp.HLG
+            hevcVideoRangeTypes = hevcVideoRangeTypes + "|HLG"
+            vp9VideoRangeTypes = vp9VideoRangeTypes + "|HLG"
+            av1VideoRangeTypes = av1VideoRangeTypes + "|HLG"
+
+            if canPlayDovi
+                hevcVideoRangeTypes = hevcVideoRangeTypes + "|DOVIWithHLG"
+                vp9VideoRangeTypes = vp9VideoRangeTypes + "|DOVIWithHLG"
+                av1VideoRangeTypes = av1VideoRangeTypes + "|DOVIWithHLG"
+            end if
+        end if
     end if
 
     ' H264
@@ -597,12 +624,6 @@ function getCodecProfiles() as object
                 "Condition": "NotEquals",
                 "Property": "IsAnamorphic",
                 "Value": "true",
-                "IsRequired": false
-            },
-            {
-                "Condition": "LessThanEqual",
-                "Property": "VideoBitDepth",
-                "Value": "8",
                 "IsRequired": false
             },
             {
@@ -1087,4 +1108,29 @@ function setPreferredCodec(codecString as string, preferredCodec as string) as s
 
         return newCodecString
     end if
+end function
+
+' does the connected display support playing 4k video?
+function canPlay4k() as boolean
+    deviceInfo = CreateObject("roDeviceInfo")
+    hdmiStatus = CreateObject("roHdmiStatus")
+
+    ' Check if the output mode is 2160p or higher
+    maxVideoHeight = m.global.device.videoHeight
+    if maxVideoHeight = invalid then return false
+    if maxVideoHeight.ToInt() < 2160
+        return false
+    end if
+
+    ' Check if HDCP 2.2 is enabled, skip check for TVs
+    if deviceInfo.GetModelType() = "STB" and hdmiStatus.IsHdcpActive("2.2") <> true
+        return false
+    end if
+
+    ' Check if the Roku player can decode 4K 60fps HEVC streams
+    if deviceInfo.CanDecodeVideo({ Codec: "hevc", Profile: "main", Level: "5.1" }).result <> true
+        return false
+    end if
+
+    return true
 end function
