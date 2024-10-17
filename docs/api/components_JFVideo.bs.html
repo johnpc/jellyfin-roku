@@ -15,7 +15,8 @@ sub init()
     m.top.transcodeReasons = []
     m.bufferCheckTimer.duration = 30
 
-    if m.global.session.user.settings["ui.design.hideclock"] = true
+    userSettings = m.global.session.user.settings
+    if userSettings["ui.design.hideclock"]
         clockNode = findNodeBySubtype(m.top, "clock")
         if clockNode[0] &lt;> invalid then clockNode[0].parent.removeChild(clockNode[0].node)
     end if
@@ -24,7 +25,7 @@ sub init()
     m.nextEpisodeButton = m.top.findNode("nextEpisode")
     m.nextEpisodeButton.text = tr("Next Episode")
     m.nextEpisodeButton.setFocus(false)
-    m.nextupbuttonseconds = m.global.session.user.settings["playback.nextupbuttonseconds"].ToInt()
+    m.nextupbuttonseconds = userSettings["playback.nextupbuttonseconds"].ToInt()
 
     m.showNextEpisodeButtonAnimation = m.top.findNode("showNextEpisodeButton")
     m.hideNextEpisodeButtonAnimation = m.top.findNode("hideNextEpisodeButton")
