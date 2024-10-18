@@ -47,8 +47,8 @@ function ItemPostPlaybackInfo(id as string, mediaSourceId = "" as string, audioT
 
             ' force the server to transcode AAC profiles we don't support to MP3 instead of the usual AAC
             ' TODO: Remove this after server adds support for transcoding AAC from one profile to another
-            if LCase(selectedAudioStream.Codec) = "aac"
-                if LCase(selectedAudioStream.Profile) = "main" or LCase(selectedAudioStream.Profile) = "he-aac"
+            if selectedAudioStream.Codec <> invalid and LCase(selectedAudioStream.Codec) = "aac"
+                if selectedAudioStream.Profile <> invalid and LCase(selectedAudioStream.Profile) = "main" or LCase(selectedAudioStream.Profile) = "he-aac"
                     for each rule in deviceProfile.TranscodingProfiles
                         if rule.Container = "ts" or rule.Container = "mp4"
                             if rule.AudioCodec = "aac"
