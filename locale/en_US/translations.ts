@@ -1366,5 +1366,10 @@
             <translation>Both</translation>
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
+        <message>
+            <source>Special</source>
+            <translation>Special</translation>
+            <extracomment>Special episode of a TV Show</extracomment>
+        </message>
     </context>
 </TS>

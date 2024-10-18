@@ -60,9 +60,9 @@ sub onSelectAudioPressed()
 
         audioData.data.push(audioStreamItem)
     end for
-
-    m.global.sceneManager.callFunc("radioDialog", tr("Select Audio"), audioData)
-    m.global.sceneManager.observeField("returnData", "onSelectionMade")
+    sceneManager = m.global.sceneManager
+    sceneManager.callFunc("radioDialog", tr("Select Audio"), audioData)
+    sceneManager.observeField("returnData", "onSelectionMade")
 end sub
 
 ' User requested subtitle selection popup
@@ -112,23 +112,25 @@ sub onSelectSubtitlePressed()
         "Type": "subtitleselection"
     })
 
-    m.global.sceneManager.callFunc("radioDialog", tr("Select Subtitles"), subtitleData)
-    m.global.sceneManager.observeField("returnData", "onSelectionMade")
+    sceneManager = m.global.sceneManager
+    sceneManager.callFunc("radioDialog", tr("Select Subtitles"), subtitleData)
+    sceneManager.observeField("returnData", "onSelectionMade")
 end sub
 
 ' User has selected something from the radioDialog popup
 sub onSelectionMade()
-    m.global.sceneManager.unobserveField("returnData")
+    sceneManager = m.global.sceneManager
+    sceneManager.unobserveField("returnData")
 
-    if not isValid(m.global.sceneManager.returnData) then return
-    if not isValid(m.global.sceneManager.returnData.type) then return
+    if not isValid(sceneManager.returnData) then return
+    if not isValid(sceneManager.returnData.type) then return
 
-    if LCase(m.global.sceneManager.returnData.type) = "subtitleselection"
+    if LCase(sceneManager.returnData.type) = "subtitleselection"
         processSubtitleSelection()
         return
     end if
 
-    if LCase(m.global.sceneManager.returnData.type) = "audioselection"
+    if LCase(sceneManager.returnData.type) = "audioselection"
         processAudioSelection()
         return
     end if
@@ -218,21 +220,24 @@ end sub
 ' Playback state change event handlers
 sub onStateChange()
     if LCase(m.view.state) = "finished"
+        sceneManager = m.global.sceneManager
+        queueManager = m.global.queueManager
+
         ' Close any open dialogs
-        if m.global.sceneManager.callFunc("isDialogOpen")
-            m.global.sceneManager.callFunc("dismissDialog")
+        if sceneManager.callFunc("isDialogOpen")
+            sceneManager.callFunc("dismissDialog")
         end if
 
         ' If there is something next in the queue, play it
-        if m.global.queueManager.callFunc("getPosition") &lt; m.global.queueManager.callFunc("getCount") - 1
-            m.global.sceneManager.callFunc("clearPreviousScene")
-            m.global.queueManager.callFunc("moveForward")
-            m.global.queueManager.callFunc("playQueue")
+        if queueManager.callFunc("getPosition") &lt; queueManager.callFunc("getCount") - 1
+            sceneManager.callFunc("clearPreviousScene")
+            queueManager.callFunc("moveForward")
+            queueManager.callFunc("playQueue")
             return
         end if
 
         ' Playback completed, return user to previous screen
-        m.global.sceneManager.callFunc("popScene")
+        sceneManager.callFunc("popScene")
         m.global.audioPlayer.loopMode = ""
     end if
 end sub

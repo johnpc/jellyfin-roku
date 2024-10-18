@@ -1314,6 +1314,14 @@
         <translation>Use Show Image</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
+    <message>
+        <source>Play Next Episode Automatically</source>
+        <translation>Play Next Episode Automatically</translation>
+    </message>
+    <message>
+        <source>When finished playing a single episode, play the next one automatically.</source>
+        <translation>When finished playing a single episode, play the next one automatically.</translation>
+    </message>
 </context>
 <context>
     <name></name>

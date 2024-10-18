@@ -93,26 +93,28 @@ sub settingFocused()
     m.integerSetting.visible = false
     m.radioSetting.visible = false
 
+    userSettings = m.global.session.user.settings
+
     if selectedSetting.type = invalid
         return
     else if selectedSetting.type = "bool"
 
         m.boolSetting.visible = true
 
-        if m.global.session.user.settings[selectedSetting.settingName] = true
+        if userSettings[selectedSetting.settingName] = true
             m.boolSetting.checkedItem = 1
         else
             m.boolSetting.checkedItem = 0
         end if
     else if selectedSetting.type = "integer"
-        integerValue = m.global.session.user.settings[selectedSetting.settingName].ToStr()
+        integerValue = userSettings[selectedSetting.settingName].ToStr()
         if isValid(integerValue)
             m.integerSetting.text = integerValue
         end if
         m.integerSetting.visible = true
     else if LCase(selectedSetting.type) = "radio"
 
-        selectedValue = m.global.session.user.settings[selectedSetting.settingName]
+        selectedValue = userSettings[selectedSetting.settingName]
 
         radioContent = CreateObject("roSGNode", "ContentNode")
 
@@ -175,7 +177,6 @@ sub boolSettingChanged()
             set_setting(selectedSetting.settingName, "true")
             ' setting specific triggers
             if selectedSetting.settingName = "global.rememberme"
-                print "m.global.session.user.id=", m.global.session.user.id
                 set_setting("active_user", m.global.session.user.id)
             end if
         else

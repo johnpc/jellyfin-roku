@@ -22,10 +22,10 @@ sub init()
 
     ' Randomize the background colors
     backdropColor = "#00a4db" ' set default in case global var is invalid
-    localGlobal = m.global
+    myGlobal = m.global
 
-    if isValid(localGlobal) and isValid(localGlobal.constants) and isValid(localGlobal.constants.poster_bg_pallet)
-        posterBackgrounds = localGlobal.constants.poster_bg_pallet
+    if isValid(myGlobal) and isValid(myGlobal.constants) and isValid(myGlobal.constants.poster_bg_pallet)
+        posterBackgrounds = myGlobal.constants.poster_bg_pallet
         backdropColor = posterBackgrounds[rnd(posterBackgrounds.count()) - 1]
     end if
 
@@ -62,7 +62,7 @@ sub itemContentChanged()
     if isValid(m.unplayedCount) then m.unplayedCount.visible = false
     itemData = m.top.itemContent
     if itemData = invalid then return
-    localGlobal = m.global
+    userSettings = m.global.session.user.settings
 
     itemData.Title = itemData.name ' Temporarily required while we move from "HomeItem" to "JFContentItem"
 
@@ -79,8 +79,8 @@ sub itemContentChanged()
     m.itemTextExtra.width = itemData.imageWidth
     m.itemTextExtra.visible = true
     m.itemTextExtra.text = ""
-
     m.backdrop.width = itemData.imageWidth
+
 
     if isValid(itemData.iconUrl)
         m.itemIcon.uri = itemData.iconUrl
@@ -92,8 +92,8 @@ sub itemContentChanged()
         m.playedIndicator.visible = false
 
         if LCase(itemData.type) = "series"
-            if isValid(localGlobal) and isValid(localGlobal.session) and isValid(localGlobal.session.user) and isValid(localGlobal.session.user.settings)
-                unwatchedEpisodeCountSetting = localGlobal.session.user.settings["ui.tvshows.disableUnwatchedEpisodeCount"]
+            if isValid(userSettings)
+                unwatchedEpisodeCountSetting = userSettings["ui.tvshows.disableUnwatchedEpisodeCount"]
                 if isValid(unwatchedEpisodeCountSetting) and not unwatchedEpisodeCountSetting
                     if isValid(itemData.json.UserData) and isValid(itemData.json.UserData.UnplayedItemCount)
                         if itemData.json.UserData.UnplayedItemCount > 0
@@ -164,16 +164,16 @@ sub itemContentChanged()
             drawProgressBar(itemData)
         end if
 
-        if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "webclient"
-            tmpSetting = localGlobal.session.user.Configuration.useEpisodeImagesInNextUpAndResume
+        if userSettings["ui.general.episodeimagesnextup"] = "webclient"
+            tmpSetting = m.global.session.user.Configuration.useEpisodeImagesInNextUpAndResume
             if isValid(tmpSetting) and tmpSetting
                 m.itemPoster.uri = itemData.thumbnailURL
             else
                 m.itemPoster.uri = itemData.widePosterURL
             end if
-        else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "show"
+        else if userSettings["ui.general.episodeimagesnextup"] = "show"
             m.itemPoster.uri = itemData.widePosterURL
-        else if localGlobal.session.user.settings["ui.general.episodeimagesnextup"] = "episode"
+        else if userSettings["ui.general.episodeimagesnextup"] = "episode"
             m.itemPoster.uri = itemData.thumbnailURL
         end if
 
