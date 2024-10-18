@@ -264,15 +264,11 @@
                     },
                     {
                         "title": "Episode Next Up Behavior",
-                        "description": "What should clicking a Next Up episode do.",
+                        "description": "What should clicking OK on a Next Up episode do.",
                         "settingName": "ui.general.episodenextupbehavior",
                         "type": "radio",
-                        "default": "play",
+                        "default": "episode",
                         "options": [
-                            {
-                                "title": "Play Episode Immediately",
-                                "id": "play"
-                            },
                             {
                                 "title": "View Episode Details",
                                 "id": "episode"

@@ -312,7 +312,7 @@ sub Main (args as dynamic) as void
                     localGlobal = m.global
 
                     ' we only use this special steering logic from the home screen
-                    if localGlobal.session.user.settings["ui.general.episodenextupbehavior"] = "play" or launchSource <> "home"
+                    if launchSource <> "home"
                         ' Display playback options dialog
                         if selectedItem.json.userdata.PlaybackPositionTicks > 0
                             m.global.queueManager.callFunc("hold", selectedItem)

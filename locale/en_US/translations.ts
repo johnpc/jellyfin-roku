@@ -1327,14 +1327,9 @@
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
         <message>
-            <source>What should clicking a Next Up episode do.</source>
-            <translation>What should clicking a Next Up episode do.</translation>
+            <source>What should clicking OK on a Next Up episode do.</source>
+            <translation>What should clicking OK on a Next Up episode do.</translation>
             <extracomment>User Setting - Setting description</extracomment>
-        </message>
-        <message>
-            <source>Play Episode Immediately</source>
-            <translation>Play Episode Immediately</translation>
-            <extracomment>User Setting - Setting option title</extracomment>
         </message>
         <message>
             <source>View Episode Details</source>
