@@ -1338,6 +1338,14 @@
         <translation>Serienbild verwenden</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
+    <message>
+        <source>Play Next Episode Automatically</source>
+        <translation>Nächste Episode automatisch abspielen</translation>
+    </message>
+    <message>
+        <source>When finished playing a single episode, play the next one automatically.</source>
+        <translation>Wenn die Wiedergabe einer einzelnen Episode beendet ist, wird automatisch die nächste Episode abgespielt.</translation>
+    </message>
 </context>
 <context>
     <name></name>
