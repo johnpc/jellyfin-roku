@@ -1322,6 +1322,10 @@
         <source>When finished playing a single episode, play the next one automatically.</source>
         <translation>When finished playing a single episode, play the next one automatically.</translation>
     </message>
+    <message>
+        <source>Special</source>
+        <translation>Special</translation>
+    </message>
 </context>
 <context>
     <name></name>
