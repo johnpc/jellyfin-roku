@@ -301,21 +301,11 @@ function getTranscodingProfiles() as object
     end if
 
     ' AV1
-    for each container in transcodingContainers
-        if di.CanDecodeVideo({ Codec: "av1", Container: container }).Result
-            if container = "mp4"
-                ' check for codec string before adding it
-                if mp4VideoCodecs.Instr(0, ",av1") = -1
-                    mp4VideoCodecs = mp4VideoCodecs + ",av1"
-                end if
-            else if container = "ts"
-                ' check for codec string before adding it
-                if tsVideoCodecs.Instr(0, ",av1") = -1
-                    tsVideoCodecs = tsVideoCodecs + ",av1"
-                end if
-            end if
-        end if
-    end for
+    ' CanDecodeVideo() returns false for AV1 when the container is provided
+    ' Manually add AV1 to the mp4VideoCodecs list if support is detected
+    if di.CanDecodeVideo({ Codec: "av1" }).Result
+        mp4VideoCodecs = mp4VideoCodecs + ",av1"
+    end if
 
     ' AUDIO CODECS
     for each container in transcodingContainers
