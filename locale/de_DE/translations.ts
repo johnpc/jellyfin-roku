@@ -1346,6 +1346,10 @@
         <source>When finished playing a single episode, play the next one automatically.</source>
         <translation>Wenn die Wiedergabe einer einzelnen Episode beendet ist, wird automatisch die nächste Episode abgespielt.</translation>
     </message>
+    <message>
+        <source>Special</source>
+        <translation>Special</translation>
+    </message>
 </context>
 <context>
     <name></name>
