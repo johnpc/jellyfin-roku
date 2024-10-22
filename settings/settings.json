@@ -264,7 +264,7 @@
                     },
                     {
                         "title": "Episode Next Up Behavior",
-                        "description": "What should clicking OK on a Next Up episode do.",
+                        "description": "This controls what clicking OK on a Next Up episode does.",
                         "settingName": "ui.general.episodenextupbehavior",
                         "type": "radio",
                         "default": "episode",

@@ -1327,8 +1327,8 @@
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
         <message>
-            <source>What should clicking OK on a Next Up episode do.</source>
-            <translation>What should clicking OK on a Next Up episode do.</translation>
+            <source>This controls what clicking OK on a Next Up episode does.</source>
+            <translation>This controls what clicking OK on a Next Up episode does.</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
         <message>
