@@ -43,6 +43,10 @@ sub onProgressPercentageChanged()
     m.videoPositionTime.text = secondsToHuman(m.top.positionTime, true)
 
     osdmode = m.global.session.user.settings["ui.general.osdremainingtime"]
+    if m.global.session.user.settings["ui.design.hideclock"]
+        ' in order to honor the hide clocks setting
+        osdmode = "remaining"
+    end if
 
     if osdmode = "remaining"
         m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true)
