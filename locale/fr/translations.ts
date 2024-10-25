@@ -1330,6 +1330,18 @@
         <translation>Images d&apos;épisodes à suivre</translation>
         <extracomment>User Setting - Setting title</extracomment>
     </message>
+    <message>
+        <source>Play Next Episode Automatically</source>
+        <translation>Lancer automatiquement le nouvel épisode</translation>
+    </message>
+    <message>
+        <source>Special</source>
+        <translation>Spécial</translation>
+    </message>
+    <message>
+        <source>When finished playing a single episode, play the next one automatically.</source>
+        <translation>Lorsque la lecture d&apos;un épisode est terminée, lancer automatiquement le suivant.</translation>
+    </message>
 </context>
 <context>
     <name></name>
