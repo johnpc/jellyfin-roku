@@ -1342,6 +1342,42 @@
         <source>When finished playing a single episode, play the next one automatically.</source>
         <translation>Lorsque la lecture d&apos;un épisode est terminée, lancer automatiquement le suivant.</translation>
     </message>
+    <message>
+        <source>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</source>
+        <translation>Comment le temps restant est-il représenté ? Le temps restant indique les heures, les minutes et les secondes restantes. L&apos;heure du jour indique l&apos;heure à laquelle la vidéo se terminera.</translation>
+    </message>
+    <message>
+        <source>Episode Next Up Behavior</source>
+        <translation type="unfinished">Épisode suivant : Comportement</translation>
+    </message>
+    <message>
+        <source>This controls what clicking OK on a Next Up episode does.</source>
+        <translation type="unfinished">Cela contrôle ce que fait un clic sur OK sur un épisode suivant.</translation>
+    </message>
+    <message>
+        <source>View Episode Details</source>
+        <translation>Voir les détails de l&apos;épisode</translation>
+    </message>
+    <message>
+        <source>View Season Details</source>
+        <translation>Voir les détails de la saison</translation>
+    </message>
+    <message>
+        <source>OSD Remaining Time</source>
+        <translation type="unfinished">Durée restante de l&apos;affichage à l&apos;écran</translation>
+    </message>
+    <message>
+        <source>Remaining Time</source>
+        <translation>Temps restant</translation>
+    </message>
+    <message>
+        <source>Time of Day</source>
+        <translation>Heure de la journée</translation>
+    </message>
+    <message>
+        <source>Both</source>
+        <translation>Les deux</translation>
+    </message>
 </context>
 <context>
     <name></name>
