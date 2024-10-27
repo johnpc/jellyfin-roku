@@ -1352,7 +1352,7 @@
     </message>
     <message>
         <source>This controls what clicking OK on a Next Up episode does.</source>
-        <translation type="unfinished">Cela contrôle ce que fait un clic sur OK sur un épisode suivant.</translation>
+        <translation>Cela contrôle ce que fait un clic sur OK sur un épisode suivant.</translation>
     </message>
     <message>
         <source>View Episode Details</source>
@@ -1364,7 +1364,7 @@
     </message>
     <message>
         <source>OSD Remaining Time</source>
-        <translation type="unfinished">Durée restante de l&apos;affichage à l&apos;écran</translation>
+        <translation type="unfinished">Affichage à l&apos;écran du temps restant</translation>
     </message>
     <message>
         <source>Remaining Time</source>
