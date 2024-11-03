@@ -1371,7 +1371,7 @@
     </message>
     <message>
         <source>Episode Next Up Behavior</source>
-        <translation>Comportamento do Próximo Episódio</translation>
+        <translation>Comportamento do A Seguir</translation>
     </message>
     <message>
         <source>View Episode Details</source>
@@ -1379,7 +1379,7 @@
     </message>
     <message>
         <source>This controls what clicking OK on a Next Up episode does.</source>
-        <translation>Isso controla o que acontece ao pressionar OK no próximo episódio.</translation>
+        <translation>Isso controla o comportamento ao clicar OK no A Seguir.</translation>
     </message>
     <message>
         <source>View Season Details</source>
