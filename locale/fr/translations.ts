@@ -1348,7 +1348,7 @@
     </message>
     <message>
         <source>Episode Next Up Behavior</source>
-        <translation type="unfinished">Épisode suivant : Comportement</translation>
+        <translation type="unfinished">Comportement du prochain épisode</translation>
     </message>
     <message>
         <source>This controls what clicking OK on a Next Up episode does.</source>
