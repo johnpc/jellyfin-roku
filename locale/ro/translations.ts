@@ -581,6 +581,310 @@
         <translation>Necunoscut</translation>
         <extracomment>Title for a cast member for which we have no information for</extracomment>
     </message>
+    <message>
+        <source>Bring the theater experience straight to your living room with the ability to play custom intros before the main feature.</source>
+        <translation>Adu experiența cinematografică direct în sufrageria ta, cu posibilitatea de a reda introduceri personalizate înainte de filmul principal.</translation>
+    </message>
+    <message>
+        <source>Slideshow Paused</source>
+        <translation>Slideshow Paused</translation>
+    </message>
+    <message>
+        <source>Random Off</source>
+        <translation>Aleatoriu Oprit</translation>
+    </message>
+    <message>
+        <source>Use Splashscreen as Home Background</source>
+        <translation>Folosește Ecranul de Start ca Fundal pentru Pagina Principală</translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <translation>Codec Audio</translation>
+    </message>
+    <message>
+        <source>You can search for Titles, People, Live TV Channels and more</source>
+        <translation>Poți căuta Titluri, Persoane, Canale TV live și altele</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for HEVC media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Încearcă redarea directă pentru media HEVC cu niveluri de profil nesuportate, înainte de a recurge la transcodare dacă aceasta eșuează.</translation>
+    </message>
+    <message>
+        <source>Reason</source>
+        <translation>Motiv</translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <translation>Codec Video</translation>
+    </message>
+    <message>
+        <source>Size</source>
+        <translation>Dimensiune</translation>
+    </message>
+    <message>
+        <source>Use voice remote to search</source>
+        <translation>Folosește căutare vocală</translation>
+    </message>
+    <message>
+        <source>H.264</source>
+        <translation>H.264</translation>
+    </message>
+    <message>
+        <source>Settings relating to how the application looks.</source>
+        <translation>Setări referitoare la aspectul aplicației.</translation>
+    </message>
+    <message>
+        <source>Go directly to the episode list if a TV series has only one season.</source>
+        <translation>Mergi direct la lista de episoade dacă un serial are un singur sezon.</translation>
+    </message>
+    <message>
+        <source>Blur images of unwatched episodes.</source>
+        <translation>Estompează imaginile episoadelor nevizionate.</translation>
+    </message>
+    <message>
+        <source>Hide Clock</source>
+        <translation>Ascunde Ceasul</translation>
+    </message>
+    <message>
+        <source>Hide all clocks in Jellyfin. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+        <translation>Ascunde ceasul peste tot in Jellyfin. Va fi necesar să închizi și să redeschizi Jellyfin pentru ca modificările să aibă efect.</translation>
+    </message>
+    <message>
+        <source>Attempt Direct Play for H.264 media with unsupported profile levels before falling back to transcoding if it fails.</source>
+        <translation>Încearcă redarea directă pentru media H.264 cu niveluri de profil nesuportate, înainte de a recurge la transcodare dacă aceasta eșuează.</translation>
+    </message>
+    <message>
+        <source>Custom Subtitles</source>
+        <translation>Subtitrări Personalizate</translation>
+    </message>
+    <message>
+        <source>Replace Roku&apos;s default subtitle functions with custom functions that support CJK fonts. Fallback fonts must be configured and enabled on the server for CJK rendering to work.</source>
+        <translation>Înlocuiește funcțiile implicite de subtitrare ale Roku cu funcții personalizate care suportă fonturi CJK (chineză, japoneză, coreeană). Fonturile de rezervă trebuie configurate și activate pe server pentru ca redarea CJK să funcționeze.</translation>
+    </message>
+    <message>
+        <source>all</source>
+        <translation>toate</translation>
+    </message>
+    <message>
+        <source>Slideshow Off</source>
+        <translation>Slideshow Off</translation>
+    </message>
+    <message>
+        <source>Slideshow On</source>
+        <translation>Slideshow On</translation>
+    </message>
+    <message>
+        <source>MPEG-4 Support</source>
+        <translation>Suport MPEG-4</translation>
+    </message>
+    <message>
+        <source>Slideshow Resumed</source>
+        <translation>Slideshow Resumed</translation>
+    </message>
+    <message>
+        <source>Parental Ratings</source>
+        <translation>Evaluări Parentale</translation>
+    </message>
+    <message>
+        <source>Years</source>
+        <translation>Ani</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New Popup</source>
+        <translation>Afișează Popup-ul „Ce e Nou”</translation>
+    </message>
+    <message>
+        <source>Show What&apos;s New popup when Jellyfin is updated to a new version.</source>
+        <translation>Afișează popup-ul „Ce e Nou” când Jellyfin este actualizat la o versiune nouă.</translation>
+    </message>
+    <message>
+        <source>Next episode</source>
+        <translation>Următorul episod</translation>
+    </message>
+    <message>
+        <source>Random On</source>
+        <translation>Aleatoriu Pornit</translation>
+    </message>
+    <message>
+        <source>Movies (Presentation)</source>
+        <translation>Filme (Prezentare)</translation>
+    </message>
+    <message>
+        <source>Movies (Grid)</source>
+        <translation>Filme (Grilă)</translation>
+    </message>
+    <message>
+        <source>Show item count in the library and index of selected item.</source>
+        <translation>Afișează numărul de elemente din bibliotecă și indexul elementului selectat.</translation>
+    </message>
+    <message>
+        <source>Here is your Quick Connect code:</source>
+        <translation>Iată codul tău de Conectare Rapidă:</translation>
+    </message>
+    <message>
+        <source>Hide Taglines</source>
+        <translation>Ascunde sloganurile</translation>
+    </message>
+    <message>
+        <source>Design Elements</source>
+        <translation>Elemente de Design</translation>
+    </message>
+    <message>
+        <source>Play Trailer</source>
+        <translation>Redă Trailer</translation>
+    </message>
+    <message>
+        <source>Transcoding Information</source>
+        <translation>Informații de transcodare</translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <translation>Canale Audio</translation>
+    </message>
+    <message>
+        <source>Level</source>
+        <translation>Nivel</translation>
+    </message>
+    <message>
+        <source>Video range type</source>
+        <translation>Tipul intervalului video</translation>
+    </message>
+    <message>
+        <source>Set Favorite</source>
+        <translation>Setează că favorit</translation>
+    </message>
+    <message>
+        <source>Set Watched</source>
+        <translation>Marcheaza ca vizionat</translation>
+    </message>
+    <message>
+        <source>Go to series</source>
+        <translation>Mergi la sezoane</translation>
+    </message>
+    <message>
+        <source>Search now</source>
+        <translation>Caută acum</translation>
+    </message>
+    <message>
+        <source>(Dialog will close automatically)</source>
+        <translation>(Dialogul se va închide automat)</translation>
+    </message>
+    <message>
+        <source>Return to Top</source>
+        <translation>Revino la început</translation>
+    </message>
+    <message>
+        <source>Studios</source>
+        <translation>Studiouri</translation>
+    </message>
+    <message>
+        <source>Use the replay button to slowly animate to the first item in the folder. (If disabled, the folder will reset to the first item immediately).</source>
+        <translation>Folosește butonul de reluare pentru a anima încet până la primul element din folder. (Dacă este dezactivat, folderul va reveni imediat la primul element).</translation>
+    </message>
+    <message>
+        <source>Hides tagline text on details pages.</source>
+        <translation>Ascunde textul de slogan pe paginile de detalii.</translation>
+    </message>
+    <message>
+        <source>Options for TV Shows.</source>
+        <translation>Opțiuni pentru seriale TV.</translation>
+    </message>
+    <message>
+        <source>Blur Unwatched Episodes</source>
+        <translation>Estompează episoadele nevizionate</translation>
+    </message>
+    <message>
+        <source>Skip Details for Single Seasons</source>
+        <translation>Omite detaliile pentru sezoanele individuale</translation>
+    </message>
+    <message>
+        <source>Options that alter the design of Jellyfin.</source>
+        <translation>Opțiuni ce modifică designul Jellyfin.</translation>
+    </message>
+    <message>
+        <source>Use generated splashscreen image as Jellyfin&apos;s home background. Jellyfin will need to be closed and reopened for change to take effect.</source>
+        <translation>Folosește imaginea generată a ecranului de start ca fundal pentru pagina principală a Jellyfin. Va fi necesar să închizi și să redeschizi Jellyfin pentru ca schimbarea să aibă efect.</translation>
+    </message>
+    <message>
+        <source>Cinema Mode</source>
+        <translation>Mod Cinema</translation>
+    </message>
+    <message>
+        <source>HEVC</source>
+        <translation>HEVC</translation>
+    </message>
+    <message>
+        <source>Settings relating to playback and supported codec and media types.</source>
+        <translation>Setări referitoare la redare și la codec-urile și tipurile de media acceptate.</translation>
+    </message>
+    <message>
+        <source>Max Days Next Up</source>
+        <translation>Zile Maxime la Următorul Episod</translation>
+    </message>
+    <message>
+        <source>Playback Information</source>
+        <translation>Informații de redare</translation>
+    </message>
+    <message>
+        <source>Set the maximum amount of days a show should stay in the &apos;Next Up&apos; list without watching it.</source>
+        <translation>Setează numărul maxim de zile în care un serial ar trebui să rămână în lista „Următorul Episod” fără a fi vizionat.</translation>
+    </message>
+    <message>
+        <source>direct</source>
+        <translation>direct</translation>
+    </message>
+    <message>
+        <source>Total Bitrate</source>
+        <translation>Bitrate Total</translation>
+    </message>
+    <message>
+        <source>Stream Information</source>
+        <translation>Informații Stream</translation>
+    </message>
+    <message>
+        <source>Codec</source>
+        <translation>Codec</translation>
+    </message>
+    <message>
+        <source>Codec Tag</source>
+        <translation>Tag Codec</translation>
+    </message>
+    <message>
+        <source>Bit Rate</source>
+        <translation>Bit Rate</translation>
+    </message>
+    <message>
+        <source>Container</source>
+        <translation>Container</translation>
+    </message>
+    <message>
+        <source>Pixel format</source>
+        <translation>Format Pixel</translation>
+    </message>
+    <message>
+        <source>WxH</source>
+        <translation>Lățime x Înălțime (LxÎ)</translation>
+    </message>
+    <message>
+        <source>Unable to find any albums or songs belonging to this artist</source>
+        <translation>Nu s-au găsit albume sau melodii aparținând acestui artist</translation>
+    </message>
+    <message>
+        <source>Text Subtitles Only</source>
+        <translation>Doar Subtitrări Text</translation>
+    </message>
+    <message>
+        <source>Aired</source>
+        <translation>Difuzat</translation>
+    </message>
+    <message>
+        <source>Only display text subtitles to minimize transcoding.</source>
+        <translation>Afișează doar subtitrările text pentru a minimiza transcodarea.</translation>
+    </message>
+    <message>
+        <source>Unplayed</source>
+        <translation>Nevizionat</translation>
+    </message>
 </context>
 <context>
     <name></name>
