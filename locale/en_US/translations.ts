@@ -1371,5 +1371,10 @@
             <translation>Special</translation>
             <extracomment>Special episode of a TV Show</extracomment>
         </message>
+        <message>
+            <source>CH</source>
+            <translation>CH</translation>
+            <extracomment>Abbreviation for Channel</extracomment>
+        </message>
     </context>
 </TS>
