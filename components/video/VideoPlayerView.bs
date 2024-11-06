@@ -9,6 +9,7 @@ sub init()
     m.top.getScene().findNode("overhang").visible = false
     userSettings = m.global.session.user.settings
     m.currentItem = m.global.queueManager.callFunc("getCurrentItem")
+    m.originalClosedCaptionState = invalid
 
     m.top.id = m.currentItem.id
     m.top.seekMode = "accurate"
@@ -461,7 +462,12 @@ sub onVideoContentLoaded()
         availableSubtitleTrackIndex = availSubtitleTrackIdx(selectedSubtitle.Track.TrackName)
         if availableSubtitleTrackIndex <> -1
             if not selectedSubtitle.IsEncoded
-                m.top.globalCaptionMode = "On"
+                if selectedSubtitle.IsForced
+                    ' If IsForced, make sure to remember the Roku global setting so we
+                    ' can set it back when the video is done playing.
+                    m.originalClosedCaptionState = m.top.globalCaptionMode
+                    m.top.globalCaptionMode = "On"
+                end if
                 m.top.subtitleTrack = m.top.availableSubtitleTracks[availableSubtitleTrackIndex].TrackName
             end if
         end if
@@ -695,6 +701,12 @@ sub ReportPlayback(state = "update" as string)
             "LiveStreamId": m.top.transcodeParams.LiveStreamId
         })
         m.bufferCheckTimer.duration = 30
+    end if
+
+    if (state = "stop" or state = "finished") and m.originalClosedCaptionState <> invalid
+        m.log.debug("ReportPlayback() setting", m.top.globalCaptionMode, "back to", m.originalClosedCaptionState)
+        m.top.globalCaptionMode = m.originalClosedCaptionState
+        m.originalClosedCaptionState = invalid
     end if
 
     ' Report playstate via worker task
