@@ -35,14 +35,27 @@ sub init()
     m.optionControls.buttonFocused = m.optionControls.getChildCount() - 1
 
     m.videoControls.getChild(m.defaultButtonIndex).focus = true
-    m.deviceInfo = CreateObject("roDeviceInfo")
 end sub
 
 ' onProgressPercentageChanged: Handler for changes to m.top.progressPercentage param
 '
 sub onProgressPercentageChanged()
     m.videoPositionTime.text = secondsToHuman(m.top.positionTime, true)
-    m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true)
+
+    osdmode = m.global.session.user.settings["ui.general.osdremainingtime"]
+    if m.global.session.user.settings["ui.design.hideclock"]
+        ' in order to honor the hide clocks setting
+        osdmode = "remaining"
+    end if
+
+    if osdmode = "remaining"
+        m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true)
+    else if osdmode = "timeofday"
+        m.videoRemainingTime.text = secondsToEndTime(m.top.remainingPositionTime)
+    else if osdmode = "both"
+        m.videoRemainingTime.text = secondsToHuman(m.top.remainingPositionTime, true) + " | " + secondsToEndTime(m.top.remainingPositionTime)
+    end if
+
     m.progressBar.width = m.progressBarBackground.width * m.top.progressPercentage
 end sub
 
@@ -211,7 +224,8 @@ sub inactiveCheck()
         return
     end if
 
-    if m.deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
+    deviceInfo = CreateObject("roDeviceInfo")
+    if deviceInfo.timeSinceLastKeypress() >= m.top.inactiveTimeout
         m.top.action = "hide"
     end if
 end sub

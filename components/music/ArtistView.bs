@@ -223,7 +223,7 @@ sub createFullDscrDlg()
     dlg.Title = tr("Press 'Back' to Close")
     dlg.width = 1290
     dlg.palette = m.dlgPalette
-    dlg.overview = [m.dscr.text]
+    dlg.overview = m.dscr.text
     m.fullDscrDlg = dlg
     m.top.getScene().dialog = dlg
     border = createObject("roSGNode", "Poster")

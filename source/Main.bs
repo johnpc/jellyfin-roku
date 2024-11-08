@@ -36,7 +36,7 @@ sub Main (args as dynamic) as void
     sceneManager = CreateObject("roSGNode", "SceneManager")
     sceneManager.observeField("dataReturned", m.port)
 
-    m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager })
+    m.global.addFields({ app_loaded: false, playstateTask: playstateTask, sceneManager: sceneManager, launchSource: "" })
     m.global.addFields({ queueManager: CreateObject("roSGNode", "QueueManager") })
     m.global.addFields({ audioPlayer: CreateObject("roSGNode", "AudioPlayer") })
 
@@ -72,15 +72,18 @@ sub Main (args as dynamic) as void
         end if
     end if
 
-    ' has the current user ran this version before?
-    usersLastRunVersion = m.global.session.user.settings.lastRunVersion
-    if not isValid(usersLastRunVersion) or not versionChecker(m.global.session.user.settings.lastRunVersion, m.global.app.version)
-        set_user_setting("LastRunVersion", m.global.app.version)
-        ' show what's new popup
-        if m.global.session.user.settings["load.allowwhatsnew"]
-            dialog = createObject("roSGNode", "WhatsNewDialog")
-            m.scene.dialog = dialog
-            m.scene.dialog.observeField("buttonSelected", m.port)
+    ' only show whats new popup and update lastRunVersion on prod
+    if not m.global.app.isDev
+        ' has the current user ran this version before?
+        usersLastRunVersion = m.global.session.user.settings.lastRunVersion
+        if not isValid(usersLastRunVersion) or not versionChecker(usersLastRunVersion, m.global.app.version)
+            set_user_setting("LastRunVersion", m.global.app.version)
+            ' show what's new popup
+            if m.global.session.user.settings["load.allowwhatsnew"]
+                dialog = createObject("roSGNode", "WhatsNewDialog")
+                m.scene.dialog = dialog
+                m.scene.dialog.observeField("buttonSelected", m.port)
+            end if
         end if
     end if
 
@@ -224,8 +227,12 @@ sub Main (args as dynamic) as void
                     ' Find the object in the scene's data and update its json data
                     for i = 0 to currentScene.objects.Items.count() - 1
                         if LCase(currentScene.objects.Items[i].id) = LCase(currentEpisode.id)
-                            currentScene.objects.Items[i].json = api.users.GetItem(m.global.session.user.id, currentEpisode.id)
-                            m.global.queueManager.callFunc("setTopStartingPoint", currentScene.objects.Items[i].json.UserData.PlaybackPositionTicks)
+
+                            data = api.users.GetItem(m.global.session.user.id, currentEpisode.id)
+                            if isValid(data)
+                                currentScene.objects.Items[i].json = data
+                                m.global.queueManager.callFunc("setTopStartingPoint", data.UserData.PlaybackPositionTicks)
+                            end if
                             exit for
                         end if
                     end for
@@ -244,15 +251,19 @@ sub Main (args as dynamic) as void
             currentScene = m.global.sceneManager.callFunc("getActiveScene")
 
             if isValid(currentScene) and isValid(currentScene.itemContent) and isValid(currentScene.itemContent.id)
-                ' Refresh movie detail data
-                currentScene.itemContent.json = api.users.GetItem(m.global.session.user.id, currentScene.itemContent.id)
-                movieMetaData = ItemMetaData(currentScene.itemContent.id)
+                data = api.users.GetItem(m.global.session.user.id, currentScene.itemContent.id)
+                if isValid(data)
+                    currentScene.itemContent.json = data
+                    ' Set updated starting point for the queue item
+                    m.global.queueManager.callFunc("setTopStartingPoint", data.UserData.PlaybackPositionTicks)
 
-                ' Redraw movie poster
-                currentScene.newPosterImageURI = movieMetaData.posterURL
-
-                ' Set updated starting point for the queue item
-                m.global.queueManager.callFunc("setTopStartingPoint", currentScene.itemContent.json.UserData.PlaybackPositionTicks)
+                    ' Refresh movie detail data
+                    movieMetaData = ItemMetaData(currentScene.itemContent.id)
+                    if isValid(movieMetaData)
+                        ' Redraw movie poster
+                        currentScene.newPosterImageURI = movieMetaData.posterURL
+                    end if
+                end if
             end if
 
             stopLoadingSpinner()
@@ -296,22 +307,39 @@ sub Main (args as dynamic) as void
                         audio_stream_idx = selectedItem.selectedAudioStreamIndex
                     end if
 
+                    launchSource = m.global.launchSource
+                    m.global.launchSource = ""
+
                     selectedItem.selectedAudioStreamIndex = audio_stream_idx
-                    ' Display playback options dialog
-                    if selectedItem.json.userdata.PlaybackPositionTicks > 0
-                        m.global.queueManager.callFunc("hold", selectedItem)
-                        playbackOptionDialog(selectedItem.json.userdata.PlaybackPositionTicks, selectedItem.json)
-                    else
-                        m.global.queueManager.callFunc("clear")
-                        m.global.queueManager.callFunc("push", selectedItem)
-                        m.global.queueManager.callFunc("playQueue")
+
+                    localGlobal = m.global
+
+                    ' we only use this special steering logic from the home screen
+                    if launchSource <> "home"
+                        ' Display playback options dialog
+                        if selectedItem.json.userdata.PlaybackPositionTicks > 0
+                            m.global.queueManager.callFunc("hold", selectedItem)
+                            playbackOptionDialog(selectedItem.json.userdata.PlaybackPositionTicks, selectedItem.json)
+                        else
+                            m.global.queueManager.callFunc("clear")
+                            m.global.queueManager.callFunc("push", selectedItem)
+                            m.global.queueManager.callFunc("playQueue")
+                        end if
+
+                    else if localGlobal.session.user.settings["ui.general.episodenextupbehavior"] = "episode"
+                        group = CreateMovieDetailsGroup(selectedItem)
+
+                    else if localGlobal.session.user.settings["ui.general.episodenextupbehavior"] = "season"
+                        group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.json.SeasonId, selectedItem.id)
+
                     end if
+
 
                 else if selectedItemType = "Series"
                     group = CreateSeriesDetailsGroup(selectedItem.json.id)
                 else if selectedItemType = "Season"
                     if isValid(selectedItem.json) and isValid(selectedItem.json.SeriesId) and isValid(selectedItem.id)
-                        group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.id)
+                        group = CreateSeasonDetailsGroupByID(selectedItem.json.SeriesId, selectedItem.id, "")
                     else
                         stopLoadingSpinner()
                         message_dialog(tr("Error loading Season"))
@@ -577,36 +605,41 @@ sub Main (args as dynamic) as void
             ' If a button is selected, we have some determining to do
             btn = getButton(msg)
             group = sceneManager.callFunc("getActiveScene")
+
             if isValid(btn) and btn.id = "play-button"
+                if not isValid(group) then return
+
                 ' User chose Play button from movie detail view
                 startLoadingSpinner()
                 ' Check if a specific Audio Stream was selected
                 audio_stream_idx = 0
-                if isValid(group) and isValid(group.selectedAudioStreamIndex)
+                if isValid(group.selectedAudioStreamIndex)
                     audio_stream_idx = group.selectedAudioStreamIndex
                 end if
 
-                group.itemContent.selectedAudioStreamIndex = audio_stream_idx
-                group.itemContent.id = group.selectedVideoStreamId
+                if isValid(group.itemContent)
+                    group.itemContent.selectedAudioStreamIndex = audio_stream_idx
+                    group.itemContent.id = group.selectedVideoStreamId
 
-                ' Display playback options dialog
-                if group.itemContent.json.userdata.PlaybackPositionTicks > 0
-                    m.global.queueManager.callFunc("hold", group.itemContent)
-                    playbackOptionDialog(group.itemContent.json.userdata.PlaybackPositionTicks, group.itemContent.json)
-                else
-                    m.global.queueManager.callFunc("clear")
-                    m.global.queueManager.callFunc("push", group.itemContent)
-                    m.global.queueManager.callFunc("playQueue")
+                    ' Display playback options dialog
+                    if group.itemContent.json.userdata.PlaybackPositionTicks > 0
+                        m.global.queueManager.callFunc("hold", group.itemContent)
+                        playbackOptionDialog(group.itemContent.json.userdata.PlaybackPositionTicks, group.itemContent.json)
+                    else
+                        m.global.queueManager.callFunc("clear")
+                        m.global.queueManager.callFunc("push", group.itemContent)
+                        m.global.queueManager.callFunc("playQueue")
+                    end if
                 end if
 
-                if isValid(group) and isValid(group.lastFocus) and isValid(group.lastFocus.id) and group.lastFocus.id = "main_group"
+                if isValid(group.lastFocus) and isValid(group.lastFocus.id) and group.lastFocus.id = "main_group"
                     buttons = group.findNode("buttons")
                     if isValid(buttons)
                         group.lastFocus = group.findNode("buttons")
                     end if
                 end if
 
-                if isValid(group) and isValid(group.lastFocus)
+                if isValid(group.lastFocus)
                     group.lastFocus.setFocus(true)
                 end if
 
@@ -847,7 +880,7 @@ sub Main (args as dynamic) as void
                     else if popupNode.returnData.indexselected = 3
                         ' User chose Go to season
                         if isValid(selectedItem[0].json) and isValid(selectedItem[0].json.SeriesId) and isValid(selectedItem[0].json.seasonID)
-                            CreateSeasonDetailsGroupByID(selectedItem[0].json.SeriesId, selectedItem[0].json.seasonID)
+                            CreateSeasonDetailsGroupByID(selectedItem[0].json.SeriesId, selectedItem[0].json.seasonID, "")
                         else
                             stopLoadingSpinner()
                             message_dialog(tr("Error loading Season"))

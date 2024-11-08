@@ -1284,6 +1284,84 @@
         <translation>Show already watched episodes in &apos;Next Up&apos; sections.</translation>
         <extracomment>User Setting - Setting description</extracomment>
     </message>
+    <message>
+        <source>View All Next Up</source>
+        <translation>View All Next Up</translation>
+        <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
+    </message>
+    <message>
+        <source>Episode Images Next Up</source>
+        <translation>Episode Images Next Up</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
+        <translation>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Use Web Client Setting</source>
+        <translation>Use Web Client Setting</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Use Episode Image</source>
+        <translation>Use Episode Image</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Use Show Image</source>
+        <translation>Use Show Image</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Play Next Episode Automatically</source>
+        <translation>Play Next Episode Automatically</translation>
+    </message>
+    <message>
+        <source>When finished playing a single episode, play the next one automatically.</source>
+        <translation>When finished playing a single episode, play the next one automatically.</translation>
+    </message>
+    <message>
+        <source>Special</source>
+        <translation>Special</translation>
+    </message>
+    <message>
+        <source>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</source>
+        <translation>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</translation>
+    </message>
+    <message>
+        <source>Episode Next Up Behavior</source>
+        <translation>Episode Next Up Behaviour</translation>
+    </message>
+    <message>
+        <source>This controls what clicking OK on a Next Up episode does.</source>
+        <translation>This controls what clicking OK on a Next Up episode does.</translation>
+    </message>
+    <message>
+        <source>View Episode Details</source>
+        <translation>View Episode Details</translation>
+    </message>
+    <message>
+        <source>View Season Details</source>
+        <translation>View Season Details</translation>
+    </message>
+    <message>
+        <source>OSD Remaining Time</source>
+        <translation>OSD Remaining Time</translation>
+    </message>
+    <message>
+        <source>Remaining Time</source>
+        <translation>Remaining Time</translation>
+    </message>
+    <message>
+        <source>Time of Day</source>
+        <translation>Time of Day</translation>
+    </message>
+    <message>
+        <source>Both</source>
+        <translation>Both</translation>
+    </message>
 </context>
 <context>
     <name></name>

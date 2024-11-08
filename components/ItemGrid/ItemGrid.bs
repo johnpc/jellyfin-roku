@@ -6,9 +6,12 @@ import "pkg:/source/roku_modules/log/LogMixin.brs"
 
 sub init()
     m.log = log.Logger("ItemGrid")
+    m.log.debug("start init()")
+    userSettings = m.global.session.user.settings
+
     m.options = m.top.findNode("options")
 
-    m.showItemCount = m.global.session.user.settings["itemgrid.showItemCount"]
+    m.showItemCount = userSettings["itemgrid.showItemCount"]
 
     m.tvGuide = invalid
     m.channelFocused = invalid
@@ -67,9 +70,10 @@ sub init()
     m.alphaMenu = m.alpha.findNode("alphaMenu")
 
     'Get reset folder setting
-    m.resetGrid = m.global.session.user.settings["itemgrid.reset"]
+    m.resetGrid = userSettings["itemgrid.reset"]
 
-    m.top.gridTitles = m.global.session.user.settings["itemgrid.gridTitles"]
+    m.top.gridTitles = userSettings["itemgrid.gridTitles"]
+    m.log.debug("end init()")
 end sub
 
 'Genre Item Selected
@@ -79,8 +83,10 @@ end sub
 
 'Load initial set of Data
 sub loadInitialItems()
+    m.log.debug("start loadInitialItems()")
     m.loadItemsTask.control = "stop"
     startLoadingSpinner()
+    userSettings = m.global.session.user.settings
 
     if m.top.parentItem.json.Type = "CollectionFolder" 'or m.top.parentItem.json.Type = "Folder"
         m.top.HomeLibraryItem = m.top.parentItem.Id
@@ -93,25 +99,25 @@ sub loadInitialItems()
     ' Read view/sort/filter settings
     if m.top.parentItem.collectionType = "livetv"
         ' Translate between app and server nomenclature
-        viewSetting = m.global.session.user.settings["display.livetv.landing"]
+        viewSetting = userSettings["display.livetv.landing"]
         if viewSetting = "guide"
             m.view = "tvGuide"
         else
             m.view = "livetv"
         end if
-        m.sortField = m.global.session.user.settings["display.livetv.sortField"]
-        sortAscendingStr = m.global.session.user.settings["display.livetv.sortAscending"]
-        m.filter = m.global.session.user.settings["display.livetv.filter"]
+        m.sortField = userSettings["display.livetv.sortField"]
+        sortAscendingStr = userSettings["display.livetv.sortAscending"]
+        m.filter = userSettings["display.livetv.filter"]
     else if m.top.parentItem.collectionType = "music"
-        m.view = m.global.session.user.settings["display.music.view"]
-        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
+        m.view = userSettings["display.music.view"]
+        m.sortField = userSettings["display." + m.top.parentItem.Id + ".sortField"]
+        sortAscendingStr = userSettings["display." + m.top.parentItem.Id + ".sortAscending"]
+        m.filter = userSettings["display." + m.top.parentItem.Id + ".filter"]
     else
-        m.sortField = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortField"]
-        sortAscendingStr = m.global.session.user.settings["display." + m.top.parentItem.Id + ".sortAscending"]
-        m.filter = m.global.session.user.settings["display." + m.top.parentItem.Id + ".filter"]
-        m.view = m.global.session.user.settings["display." + m.top.parentItem.Id + ".landing"]
+        m.sortField = userSettings["display." + m.top.parentItem.Id + ".sortField"]
+        sortAscendingStr = userSettings["display." + m.top.parentItem.Id + ".sortAscending"]
+        m.filter = userSettings["display." + m.top.parentItem.Id + ".filter"]
+        m.view = userSettings["display." + m.top.parentItem.Id + ".landing"]
     end if
 
     if m.sortField = invalid
@@ -177,7 +183,7 @@ sub loadInitialItems()
         m.loadItemsTask.itemType = "MusicArtist"
         m.loadItemsTask.itemId = m.top.parentItem.Id
 
-        m.view = m.global.session.user.settings["display.music.view"]
+        m.view = userSettings["display.music.view"]
 
         if m.view = "music-album"
             m.loadItemsTask.itemType = "MusicAlbum"
@@ -188,7 +194,7 @@ sub loadInitialItems()
         ' For LiveTV, we want to "Fit" the item images, not zoom
         m.top.imageDisplayMode = "scaleToFit"
 
-        if m.global.session.user.settings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
+        if userSettings["display.livetv.landing"] = "guide" and m.options.view <> "livetv"
             showTvGuide()
         end if
     else if m.top.parentItem.collectionType = "CollectionFolder" or m.top.parentItem.type = "CollectionFolder" or m.top.parentItem.collectionType = "boxsets" or m.top.parentItem.Type = "Boxset" or m.top.parentItem.Type = "Boxsets" or m.top.parentItem.Type = "Folder" or m.top.parentItem.Type = "Channel"
@@ -235,6 +241,7 @@ sub loadInitialItems()
     startLoadingSpinner(false)
     m.loadItemsTask.control = "RUN"
     SetUpOptions()
+    m.log.debug("end loadInitialItems()")
 end sub
 
 ' Set Movies view, sort, and filter options
@@ -295,7 +302,7 @@ sub setTvShowsOptions(options)
         { "Title": tr("TITLE"), "Name": "SortName" },
         { "Title": tr("IMDB_RATING"), "Name": "CommunityRating" },
         { "Title": tr("DATE_ADDED"), "Name": "DateCreated" },
-        { "Title": tr("DATE_PLAYED"), "Name": "DatePlayed" },
+        { "Title": tr("DATE_PLAYED"), "Name": "SeriesDatePlayed" },
         { "Title": tr("OFFICIAL_RATING"), "Name": "OfficialRating" },
         { "Title": tr("RELEASE_DATE"), "Name": "PremiereDate" },
         { "Title": tr("Random"), "Name": "Random" },
@@ -445,6 +452,7 @@ end sub
 
 'Handle loaded data, and add to Grid
 sub ItemDataLoaded(msg)
+    m.log.debug("start ItemDataLoaded()")
     itemData = msg.GetData()
     m.loadItemsTask.unobserveField("content")
     m.loadItemsTask.content = []
@@ -501,22 +509,28 @@ sub ItemDataLoaded(msg)
     end if
 
     stopLoadingSpinner()
+    m.log.debug("end ItemDataLoaded()")
 end sub
 
 'Set Background Image
 sub SetBackground(backgroundUri as string)
-
+    m.log.debug("start SetBackground()", backgroundUri, m.swapAnimation.state, m.newBackdrop.loadStatus)
     'If a new image is being loaded, or transitioned to, store URL to load next
-    if m.swapAnimation.state <> "stopped" or m.newBackdrop.loadStatus = "loading"
-        m.queuedBGUri = backgroundUri
-        return
+    if not m.top.alphaActive
+        if m.swapAnimation.state <> "stopped" or m.newBackdrop.loadStatus = "loading"
+            m.log.debug("caching new background URI")
+            m.queuedBGUri = backgroundUri
+            return
+        end if
     end if
 
     m.newBackdrop.uri = backgroundUri
+    m.log.debug("end SetBackground()")
 end sub
 
 'Handle new item being focused
 sub onItemFocused()
+    m.log.debug("start onItemFocused()", m.itemGrid.currFocusRow, m.itemGrid.itemFocused)
 
     focusedRow = m.itemGrid.currFocusRow
 
@@ -525,7 +539,7 @@ sub onItemFocused()
     updateTitle()
 
     ' If no selected item, set background to parent backdrop
-    if itemInt = -1
+    if itemInt = -1 or focusedRow = -1
         return
     end if
 
@@ -538,6 +552,7 @@ sub onItemFocused()
     if focusedRow >= m.loadedRows - 5 and m.loadeditems < m.loadItemsTask.totalRecordCount
         loadMoreData()
     end if
+    m.log.debug("end onItemFocused()")
 end sub
 
 'When Image Loading Status changes
@@ -558,6 +573,7 @@ sub swapDone()
 
         'If there is another one to load
         if m.newBackdrop.uri <> m.queuedBGUri and m.queuedBGUri <> ""
+            m.log.debug("Loading queued backdrop image", m.queuedBGUri)
             SetBackground(m.queuedBGUri)
             m.queuedBGUri = ""
         end if
@@ -566,6 +582,7 @@ end sub
 
 'Load next set of items
 sub loadMoreData()
+    m.log.debug("start loadMoreData()")
     if m.Loading = true then return
 
     startLoadingSpinner(false)
@@ -573,6 +590,7 @@ sub loadMoreData()
     m.loadItemsTask.startIndex = m.loadedItems
     m.loadItemsTask.observeField("content", "ItemDataLoaded")
     m.loadItemsTask.control = "RUN"
+    m.log.debug("end loadMoreData()")
 end sub
 
 'Item Selected
@@ -767,6 +785,20 @@ function getItemFocused()
     return invalid
 end function
 
+sub alphaActiveChanged()
+    m.log.debug("start alphaActiveChanged()", m.top.alphaActive)
+
+    if m.top.alphaActive
+        ' fade into an empty backdrop
+        m.swapAnimation.state = "stop"
+        m.queuedBGUri = ""
+        ' use a 1px image because we can't use the animation to fade into a blank uri string
+        SetBackground("pkg:/images/1px-262626.png")
+    end if
+
+    m.log.debug("end alphaActiveChanged()")
+end sub
+
 function onKeyEvent(key as string, press as boolean) as boolean
     if not press then return false
 
@@ -833,11 +865,14 @@ function onKeyEvent(key as string, press as boolean) as boolean
             return true
         end if
     else if key = "left" and topGrp.isinFocusChain() and m.alpha.visible
+        m.log.debug("Now entering alpha menu")
         m.top.alphaActive = true
         topGrp.setFocus(false)
         m.alphaMenu.setFocus(true)
+
         return true
     else if key = "right" and m.alpha.isinFocusChain()
+        m.log.debug("Now leaving alpha menu")
         m.top.alphaActive = false
         m.alphaMenu.setFocus(false)
         topGrp.setFocus(true)

@@ -625,7 +625,7 @@
     </message>
     <message>
         <source>WxH</source>
-        <translation>WxH</translation>
+        <translation>largura x altura</translation>
         <extracomment>Video width x height</extracomment>
     </message>
     <message>
@@ -1302,6 +1302,104 @@
     <message>
         <source>Cast &amp; Crew</source>
         <translation>Elenco &amp; Equipe</translation>
+    </message>
+    <message>
+        <source>Episode Images Next Up</source>
+        <translation>Imagens de episódio em Próximos</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Use Web Client Setting</source>
+        <translation>Usar configuração de cliente web</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Welcome to version</source>
+        <translation>Bme-vindo à versão</translation>
+        <extracomment>WhatsNewDialog title - Welcome to version 2.0.0</extracomment>
+    </message>
+    <message>
+        <source>To view a complete list of changes visit</source>
+        <translation>Para uma lista completa das mudanças visite</translation>
+        <extracomment>WhatsNewDialog body text preceding the changelog URL</extracomment>
+    </message>
+    <message>
+        <source>View All Next Up</source>
+        <translation>Ver todos Próximos</translation>
+        <extracomment>Title for viewing all episodes available in the Next Up section</extracomment>
+    </message>
+    <message>
+        <source>Rewatching Next Up</source>
+        <translation>Reassitir Próximos</translation>
+        <extracomment>User Setting - Setting title</extracomment>
+    </message>
+    <message>
+        <source>Show already watched episodes in &apos;Next Up&apos; sections.</source>
+        <translation>Mostrar episódios já assistidos nas seções &quot;Próximos&quot;.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>What type of images to use for Episodes shown in the &apos;Next Up&apos; and &apos;Continue Watching&apos; sections.</source>
+        <translation>Que tipo de imagens usar para os episódios exibidos nas seções &quot;Próximo&quot; e &quot;Continuar assistindo&quot;.</translation>
+        <extracomment>User Setting - Setting description</extracomment>
+    </message>
+    <message>
+        <source>Use Episode Image</source>
+        <translation>Usar imagem do episódio</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Use Show Image</source>
+        <translation>Usar imagem da série</translation>
+        <extracomment>User Setting - Setting option title</extracomment>
+    </message>
+    <message>
+        <source>Play Next Episode Automatically</source>
+        <translation>Reproduzir o próximo episódio automaticamente</translation>
+    </message>
+    <message>
+        <source>When finished playing a single episode, play the next one automatically.</source>
+        <translation>Quando terminar de reproduzir um único episodio, reproduz o próximo de forma automática.</translation>
+    </message>
+    <message>
+        <source>Special</source>
+        <translation>Especial</translation>
+    </message>
+    <message>
+        <source>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</source>
+        <translation>Como o tempo restante é representado. O tempo exibe as horas, minutos e segundos restantes. A hora do dia mostra o horário em que o vídeo será concluído.</translation>
+    </message>
+    <message>
+        <source>Episode Next Up Behavior</source>
+        <translation>Comportamento do A Seguir</translation>
+    </message>
+    <message>
+        <source>View Episode Details</source>
+        <translation>Ver Detalhes do Episódio</translation>
+    </message>
+    <message>
+        <source>This controls what clicking OK on a Next Up episode does.</source>
+        <translation>Isso controla o comportamento ao clicar OK no A Seguir.</translation>
+    </message>
+    <message>
+        <source>View Season Details</source>
+        <translation>Ver Detalhes da Temporada</translation>
+    </message>
+    <message>
+        <source>Remaining Time</source>
+        <translation>Tempo Restante</translation>
+    </message>
+    <message>
+        <source>OSD Remaining Time</source>
+        <translation>Tempo Restante de Exibição na Tela</translation>
+    </message>
+    <message>
+        <source>Time of Day</source>
+        <translation>Hora do Dia</translation>
+    </message>
+    <message>
+        <source>Both</source>
+        <translation>Ambos</translation>
     </message>
 </context>
 <context>
