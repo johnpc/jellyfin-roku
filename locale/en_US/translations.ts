@@ -1311,5 +1311,15 @@
             <translation>Use Show Image</translation>
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
+        <message>
+            <source>Home Screen Layout v2</source>
+            <translation>Home Screen Layout v2</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Use the full display width for all rows displayed on the home screen. Jellyfin will need to be closed and reopened for changes to take effect.</source>
+            <translation>Use the full display width for all rows displayed on the home screen. Jellyfin will need to be closed and reopened for changes to take effect.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
     </context>
 </TS>
