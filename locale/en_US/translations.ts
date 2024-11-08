@@ -1331,6 +1331,7 @@
             <translation>Use the full display width for all rows displayed on the home screen. Jellyfin will need to be closed and reopened for changes to take effect.</translation>
             <extracomment>User Setting - Setting description</extracomment>
         </message>
+        <message>
             <source>Episode Next Up Behavior</source>
             <translation>Episode Next Up Behavior</translation>
             <extracomment>User Setting - Setting option title</extracomment>
