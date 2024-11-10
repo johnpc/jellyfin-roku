@@ -37,6 +37,7 @@ sub updateSize()
 end sub
 
 sub loadParts(data as object)
+    m.extrasGrp = m.top.getParent().findNode("extrasGrp")
     m.top.parentId = data.id
     m.people = data.People
     m.LoadAdditionalPartsTask.itemId = m.top.parentId
@@ -44,6 +45,7 @@ sub loadParts(data as object)
 end sub
 
 sub loadPersonVideos(personId)
+    m.extrasGrp = m.top.getParent().findNode("extrasGrp")
     m.personId = personId
     m.LoadMoviesTask.itemId = m.personId
     m.LoadMoviesTask.observeField("content", "onMoviesLoaded")
@@ -116,7 +118,7 @@ sub onLikeThisLoaded()
     m.SpecialFeaturesTask.control = "RUN"
 end sub
 
-function onSpecialFeaturesLoaded()
+sub onSpecialFeaturesLoaded()
     data = m.SpecialFeaturesTask.content
     m.SpecialFeaturesTask.unobserveField("content")
     if data &lt;> invalid and data.count() > 0
@@ -134,8 +136,8 @@ function onSpecialFeaturesLoaded()
         addRowSize([462, 372])
     end if
 
-    return m.top.content
-end function
+    showOrHideMe()
+end sub
 
 sub onMoviesLoaded()
     data = m.LoadMoviesTask.content
@@ -181,6 +183,8 @@ sub onSeriesLoaded()
         m.top.content.appendChild(row)
     end if
     m.top.visible = true
+
+    showOrHideMe()
 end sub
 
 function buildRow(rowTitle as string, items, imgWdth = 0)
@@ -218,6 +222,17 @@ sub addRowSize(newRow)
     end for
     newSizeArray.push(newRow)
     m.top.rowItemSize = newSizeArray
+end sub
+
+' don't show popup panel if there is nothing to show
+sub showOrHideMe()
+    if isValid(m.top.content)
+        if m.top.content.getChildCount() = 0
+            m.extrasGrp.visible = false
+        else
+            m.extrasGrp.visible = true
+        end if
+    end if
 end sub
 
 sub onRowItemSelected()

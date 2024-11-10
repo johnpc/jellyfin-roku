@@ -1322,6 +1322,71 @@
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
         <message>
+            <source>Row Layout</source>
+            <translation>Row Layout</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Choose how rows are displayed on the home screen.</source>
+            <translation>Choose how rows are displayed on the home screen.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Original</source>
+            <translation>Original</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>Full Width</source>
+            <translation>Full Width</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>Episode Next Up Behavior</source>
+            <translation>Episode Next Up Behavior</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>This controls what clicking OK on a Next Up episode does.</source>
+            <translation>This controls what clicking OK on a Next Up episode does.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>View Episode Details</source>
+            <translation>View Episode Details</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>View Season Details</source>
+            <translation>View Season Details</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>OSD Remaining Time</source>
+            <translation>OSD Remaining Time</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</source>
+            <translation>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Remaining Time</source>
+            <translation>Remaining Time</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>Time of Day</source>
+            <translation>Time of Day</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>Both</source>
+            <translation>Both</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
             <source>Special</source>
             <translation>Special</translation>
             <extracomment>Special episode of a TV Show</extracomment>
@@ -1330,6 +1395,11 @@
             <source>N/A</source>
             <translation>N/A</translation>
             <extracomment>Abbreviation for not available</extracomment>
+        </message>
+        <message>
+            <source>CH</source>
+            <translation>CH</translation>
+            <extracomment>Abbreviation for Channel</extracomment>
         </message>
     </context>
 </TS>

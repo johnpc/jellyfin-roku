@@ -1338,6 +1338,54 @@
         <translation>Serienbild verwenden</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
+    <message>
+        <source>Play Next Episode Automatically</source>
+        <translation>Nächste Episode automatisch abspielen</translation>
+    </message>
+    <message>
+        <source>When finished playing a single episode, play the next one automatically.</source>
+        <translation>Wenn die Wiedergabe einer einzelnen Episode beendet ist, wird automatisch die nächste Episode abgespielt.</translation>
+    </message>
+    <message>
+        <source>Special</source>
+        <translation>Special</translation>
+    </message>
+    <message>
+        <source>Episode Next Up Behavior</source>
+        <translation>Nächste Episode Verhalten</translation>
+    </message>
+    <message>
+        <source>This controls what clicking OK on a Next Up episode does.</source>
+        <translation>Damit wird gesteuert, was ein Klick auf OK bei einer Folge von Next Up bewirkt.</translation>
+    </message>
+    <message>
+        <source>View Episode Details</source>
+        <translation>Details zur Episode ansehen</translation>
+    </message>
+    <message>
+        <source>View Season Details</source>
+        <translation>Staffel Details ansehen</translation>
+    </message>
+    <message>
+        <source>OSD Remaining Time</source>
+        <translation>verbleibende OSD Zeit</translation>
+    </message>
+    <message>
+        <source>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</source>
+        <translation>Wie wird die verbleibende Zeit dargestellt? Die verbleibende Zeit zeigt die verbleibenden Stunden, Minuten und Sekunden an. Die Tageszeit zeigt an, wann das Video beendet sein wird.</translation>
+    </message>
+    <message>
+        <source>Remaining Time</source>
+        <translation>verbleibende Zeit</translation>
+    </message>
+    <message>
+        <source>Time of Day</source>
+        <translation>Tageszeit</translation>
+    </message>
+    <message>
+        <source>Both</source>
+        <translation>Beide</translation>
+    </message>
 </context>
 <context>
     <name></name>

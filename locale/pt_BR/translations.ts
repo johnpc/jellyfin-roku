@@ -1353,6 +1353,54 @@
         <translation>Usar imagem da série</translation>
         <extracomment>User Setting - Setting option title</extracomment>
     </message>
+    <message>
+        <source>Play Next Episode Automatically</source>
+        <translation>Reproduzir o próximo episódio automaticamente</translation>
+    </message>
+    <message>
+        <source>When finished playing a single episode, play the next one automatically.</source>
+        <translation>Quando terminar de reproduzir um único episodio, reproduz o próximo de forma automática.</translation>
+    </message>
+    <message>
+        <source>Special</source>
+        <translation>Especial</translation>
+    </message>
+    <message>
+        <source>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</source>
+        <translation>Como o tempo restante é representado. O tempo exibe as horas, minutos e segundos restantes. A hora do dia mostra o horário em que o vídeo será concluído.</translation>
+    </message>
+    <message>
+        <source>Episode Next Up Behavior</source>
+        <translation>Comportamento do A Seguir</translation>
+    </message>
+    <message>
+        <source>View Episode Details</source>
+        <translation>Ver Detalhes do Episódio</translation>
+    </message>
+    <message>
+        <source>This controls what clicking OK on a Next Up episode does.</source>
+        <translation>Isso controla o comportamento ao clicar OK no A Seguir.</translation>
+    </message>
+    <message>
+        <source>View Season Details</source>
+        <translation>Ver Detalhes da Temporada</translation>
+    </message>
+    <message>
+        <source>Remaining Time</source>
+        <translation>Tempo Restante</translation>
+    </message>
+    <message>
+        <source>OSD Remaining Time</source>
+        <translation>Tempo Restante de Exibição na Tela</translation>
+    </message>
+    <message>
+        <source>Time of Day</source>
+        <translation>Hora do Dia</translation>
+    </message>
+    <message>
+        <source>Both</source>
+        <translation>Ambos</translation>
+    </message>
 </context>
 <context>
     <name></name>

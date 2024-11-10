@@ -1322,6 +1322,46 @@
         <source>When finished playing a single episode, play the next one automatically.</source>
         <translation>When finished playing a single episode, play the next one automatically.</translation>
     </message>
+    <message>
+        <source>Special</source>
+        <translation>Special</translation>
+    </message>
+    <message>
+        <source>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</source>
+        <translation>How is remaining time represented. Remaining time shows hours, minutes, and seconds remaining. Time of day shows what time the video will complete.</translation>
+    </message>
+    <message>
+        <source>Episode Next Up Behavior</source>
+        <translation>Episode Next Up Behaviour</translation>
+    </message>
+    <message>
+        <source>This controls what clicking OK on a Next Up episode does.</source>
+        <translation>This controls what clicking OK on a Next Up episode does.</translation>
+    </message>
+    <message>
+        <source>View Episode Details</source>
+        <translation>View Episode Details</translation>
+    </message>
+    <message>
+        <source>View Season Details</source>
+        <translation>View Season Details</translation>
+    </message>
+    <message>
+        <source>OSD Remaining Time</source>
+        <translation>OSD Remaining Time</translation>
+    </message>
+    <message>
+        <source>Remaining Time</source>
+        <translation>Remaining Time</translation>
+    </message>
+    <message>
+        <source>Time of Day</source>
+        <translation>Time of Day</translation>
+    </message>
+    <message>
+        <source>Both</source>
+        <translation>Both</translation>
+    </message>
 </context>
 <context>
     <name></name>
