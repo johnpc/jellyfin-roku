@@ -1326,5 +1326,10 @@
             <translation>Special</translation>
             <extracomment>Special episode of a TV Show</extracomment>
         </message>
+        <message>
+            <source>N/A</source>
+            <translation>N/A</translation>
+            <extracomment>Abbreviation for not available</extracomment>
+        </message>
     </context>
 </TS>
