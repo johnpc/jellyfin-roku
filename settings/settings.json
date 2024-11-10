@@ -322,6 +322,23 @@
                         "default": "false"
                     },
                     {
+                        "title": "Row Layout",
+                        "description": "Choose how rows are displayed on the home screen.",
+                        "settingName": "ui.row.layout",
+                        "type": "radio",
+                        "default": "fullwidth",
+                        "options": [
+                            {
+                                "title": "Original",
+                                "id": "original"
+                            },
+                            {
+                                "title": "Full Width",
+                                "id": "fullwidth"
+                            }
+                        ]
+                    },
+                    {
                         "title": "Show What's New Popup",
                         "description": "Show What's New popup when Jellyfin is updated to a new version.",
                         "settingName": "load.allowwhatsnew",

@@ -1322,6 +1322,26 @@
             <extracomment>User Setting - Setting option title</extracomment>
         </message>
         <message>
+            <source>Row Layout</source>
+            <translation>Row Layout</translation>
+            <extracomment>User Setting - Setting title</extracomment>
+        </message>
+        <message>
+            <source>Choose how rows are displayed on the home screen.</source>
+            <translation>Choose how rows are displayed on the home screen.</translation>
+            <extracomment>User Setting - Setting description</extracomment>
+        </message>
+        <message>
+            <source>Original</source>
+            <translation>Original</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
+            <source>Full Width</source>
+            <translation>Full Width</translation>
+            <extracomment>User Setting - Setting option title</extracomment>
+        </message>
+        <message>
             <source>Episode Next Up Behavior</source>
             <translation>Episode Next Up Behavior</translation>
             <extracomment>User Setting - Setting option title</extracomment>
