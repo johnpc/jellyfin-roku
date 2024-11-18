@@ -1,0 +1,85 @@
+sub init()
+    ' Initialize trickplay components
+    m.trickPlayBar = createObject("roSGNode", "Rectangle")
+    m.trickPlayBar.id = "trickPlayBar"
+    m.trickPlayBar.visible = false
+    m.trickPlayBar.width = 1920
+    m.trickPlayBar.height = 180
+    m.trickPlayBar.translation = [0, 900]  ' Position near bottom of screen
+    m.trickPlayBar.color = "0x000000D0"    ' Semi-transparent black
+    m.top.appendChild(m.trickPlayBar)
+
+    m.top.enableTrickPlay = true
+    m.thumbContainer = invalid
+    m.spriteSheet = invalid
+    m.loadTask = invalid
+end sub
+
+sub loadTrickPlayImages()
+    if not m.top.enableTrickPlay then return
+
+    m.log.debug("Starting loadTrickPlayImages")
+
+    ' Get base URL for Jellyfin server
+    baseUrl = m.global.session.server.url
+    if baseUrl = invalid or baseUrl = ""
+        baseUrl = m.global.session.server.localURL
+    end if
+
+    m.log.debug("Server URL:", baseUrl)
+    m.log.debug("Video ID:", m.currentItem.id)
+
+    ' Create sprite sheet poster if not already created
+    if m.spriteSheet = invalid
+        m.spriteSheet = createObject("roSGNode", "Poster")
+        m.spriteSheet.width = 320
+        m.spriteSheet.height = 180
+    end if
+
+    ' Create thumbnail container with background if not already created
+    if m.thumbContainer = invalid
+        m.thumbContainer = createObject("roSGNode", "Group")
+        m.thumbContainer.translation = [800, 450] ' Center on screen
+
+        ' Add black background
+        background = createObject("roSGNode", "Rectangle")
+        background.width = m.spriteSheet.width + 20
+        background.height = m.spriteSheet.height + 20
+        background.color = "0x000000D0"
+        m.thumbContainer.appendChild(background)
+
+        ' Position sprite sheet within background
+        m.spriteSheet.translation = [10, 10]
+        m.thumbContainer.appendChild(m.spriteSheet)
+
+        ' Add thumbnail container to trickplay bar
+        if m.trickPlayBar <> invalid
+            m.trickPlayBar.appendChild(m.thumbContainer)
+        end if
+    end if
+
+    ' Create and start the loading task
+    if m.loadTask = invalid
+        m.loadTask = createObject("roSGNode", "LoadTrickPlayTask")
+        m.loadTask.observeField("imagePath", "onTrickPlayImageLoaded")
+    end if
+
+    m.loadTask.baseUrl = baseUrl
+    m.loadTask.videoId = m.currentItem.id
+    m.loadTask.authToken = m.global.session.user.authToken
+    m.loadTask.control = "RUN"
+
+    m.log.debug("Trickplay loading task started")
+end sub
+
+sub onTrickPlayImageLoaded()
+    m.log.debug("Trickplay image loaded callback")
+    if m.loadTask.imagePath <> invalid
+        m.log.debug("Setting sprite sheet URI to: ", m.loadTask.imagePath)
+        m.spriteSheet.uri = m.loadTask.imagePath
+        m.thumbContainer.visible = true
+    else
+        m.log.error("Failed to load trickplay image")
+        m.thumbContainer.visible = false
+    end if
+end sub

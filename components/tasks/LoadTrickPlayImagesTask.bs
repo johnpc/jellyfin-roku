@@ -1,0 +1,37 @@
+sub init()
+    m.top.functionName = "loadTrickPlayImages"
+end sub
+
+sub loadTrickPlayImages()
+    videoId = m.top.videoId
+    width = m.top.width.ToStr()
+    serverUrl = m.top.serverUrl
+
+    if videoId = "" or videoId = invalid
+        print "Error: No video ID provided"
+        return
+    end if
+    
+    if serverUrl = "" or serverUrl = invalid
+        print "Error: No server URL provided"
+        return
+    end if
+
+    ' Construct temporary path for downloaded image
+    tmpPath = "tmp:/trickplay_sprite.jpg"
+
+    ' Construct URL for trickplay image
+    url = CreateObject("roUrlTransfer")
+    fullUrl = serverUrl + "/Videos/" + videoId + "/Trickplay/" + width + "/0.jpg"
+    url.SetUrl(fullUrl)
+
+    print "Loading trickplay image from: " + url.GetUrl()
+
+    ' Download the image
+    if url.GetToFile(tmpPath)
+        print "Trickplay image downloaded successfully"
+        m.top.imagePath = tmpPath
+    else
+        print "Failed to download trickplay image"
+    end if
+end sub

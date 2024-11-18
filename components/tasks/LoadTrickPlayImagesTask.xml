@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="LoadTrickPlayImagesTask" extends="Task">
+    <interface>
+        <field id="imagePath" type="string" />
+        <field id="videoId" type="string" />
+        <field id="width" type="integer" value="320" />
+        <field id="serverUrl" type="string" />
+    </interface>
+</component> 

@@ -27,6 +27,11 @@
     <field id="fullAudioData" type="array" />
     <field id="audioIndex" type="integer" />
     <field id="allowCaptions" type="boolean" value="false" />
+    <field id="trickPlayImages" type="node" />
+    <field id="enableTrickPlay" type="boolean" value="false" />
+    <field id="trickPlayBar" type="node" />
+    <field id="seekStarted" type="boolean" alwaysNotify="true" />
+    <field id="seekEnded" type="boolean" alwaysNotify="true" />
   </interface>
 
   <children>

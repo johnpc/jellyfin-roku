@@ -69,6 +69,221 @@ sub init()
     m.top.retrievingBar.filledBarBlendColor = m.global.constants.colors.blue
     m.top.bufferingBar.filledBarBlendColor = m.global.constants.colors.blue
     m.top.trickPlayBar.filledBarBlendColor = m.global.constants.colors.blue
+
+    m.log.debug("Initializing trickplay")
+
+    ' Configure trickplay settings
+    trickPlayImagesNode = createObject("roSGNode", "ContentNode")
+    if trickPlayImagesNode = invalid
+        m.log.error("Failed to create trickplay images node")
+        return
+    end if
+
+    ' Enable trickplay before setting images
+    m.top.enableTrickPlay = true
+
+    ' Then assign the images node
+    m.top.trickPlayImages = trickPlayImagesNode
+
+    m.log.debug("Trickplay initialized")
+
+    ' Add observers for seek events
+    m.top.observeField("seekStarted", "onSeekStarted")
+    m.top.observeField("seekEnded", "onSeekEnded")
+
+    ' Load trickplay images when content is loaded
+    m.LoadMetaDataTask.observeField("content", "onVideoContentLoaded")
+
+    ' Create base container for all trickplay elements
+    m.trickplayGroup = createObject("roSGNode", "Group")
+    m.trickplayGroup.visible = false
+    m.trickplayGroup.translation = [0, 0]
+    m.top.appendChild(m.trickplayGroup)
+
+    ' First layer: Background overlay
+    m.trickPlayBar = createObject("roSGNode", "Rectangle")
+    m.trickPlayBar.id = "trickPlayBar"
+    m.trickPlayBar.width = 1920
+    m.trickPlayBar.height = 400  ' Increased height to accommodate thumbnail above
+    m.trickPlayBar.translation = [0, 680]  ' Moved up to make room for thumbnail
+    m.trickPlayBar.color = "#000000"
+    m.trickPlayBar.opacity = 0.8
+    m.trickplayGroup.appendChild(m.trickPlayBar)
+
+    ' Second layer: Thumbnail container
+    m.thumbContainer = createObject("roSGNode", "Group")
+    m.thumbContainer.translation = [800, 700]  ' Positioned above the seek bar
+    m.trickplayGroup.appendChild(m.thumbContainer)
+
+    ' Add sprite sheet to thumbnail container
+    m.spriteSheet = createObject("roSGNode", "Poster")
+    m.spriteSheet.id = "spriteSheet"
+    m.spriteSheet.width = 320
+    m.spriteSheet.height = 180
+    m.spriteSheet.translation = [800, 700]
+    m.spriteSheet.scaleRotateCenter = [160, 90]  ' Center point for scaling
+    m.spriteSheet.loadDisplayMode = "scaleToFit"
+    m.spriteSheet.loadWidth = 320  ' Force loading at this size
+    m.spriteSheet.loadHeight = 180
+    m.trickplayGroup.appendChild(m.spriteSheet)
+
+    ' Third layer: Seek bar elements
+    m.seekBarContainer = createObject("roSGNode", "Group")
+    m.seekBarContainer.translation = [0, 900]  ' Below the thumbnail
+    m.trickplayGroup.appendChild(m.seekBarContainer)
+
+    ' Create time labels
+    m.currentTimeLabel = createObject("roSGNode", "Label")
+    m.currentTimeLabel.id = "currentTimeLabel"
+    m.currentTimeLabel.font = "font:LargeBoldSystemFont"
+    m.currentTimeLabel.color = "#FFFFFF"
+    m.currentTimeLabel.translation = [50, 0]
+    m.seekBarContainer.appendChild(m.currentTimeLabel)
+
+    m.totalTimeLabel = createObject("roSGNode", "Label")
+    m.totalTimeLabel.id = "totalTimeLabel"
+    m.totalTimeLabel.font = "font:LargeBoldSystemFont"
+    m.totalTimeLabel.color = "#FFFFFF"
+    m.totalTimeLabel.translation = [1770, 0]
+    m.totalTimeLabel.horizAlign = "right"
+    m.seekBarContainer.appendChild(m.totalTimeLabel)
+
+    ' Create progress bar
+    m.progressBar = createObject("roSGNode", "Rectangle")
+    m.progressBar.id = "progressBar"
+    m.progressBar.width = 1820
+    m.progressBar.height = 10
+    m.progressBar.translation = [50, 50]
+    m.progressBar.color = "#808080"
+    m.seekBarContainer.appendChild(m.progressBar)
+
+    ' Create progress indicator
+    m.progressIndicator = createObject("roSGNode", "Rectangle")
+    m.progressIndicator.id = "progressIndicator"
+    m.progressIndicator.width = 8
+    m.progressIndicator.height = 20
+    m.progressIndicator.translation = [50, 45]
+    m.progressIndicator.color = "#FFFFFF"
+    m.seekBarContainer.appendChild(m.progressIndicator)
+
+    m.log.debug("Trickplay initialized with layered UI")
+
+    ' Observe duration field to load images when it's available
+    m.top.observeField("duration", "onDurationAvailable")
+
+    ' Initialize trickplay variables
+    m.thumbWidth = 320
+    m.thumbHeight = 180
+    m.thumbsPerRow = 10
+    m.totalThumbs = 0  ' Will be set when images are loaded
+end sub
+
+sub onSeekStarted()
+    m.log.debug("onSeekStarted called")
+    if m.top.enableTrickPlay
+        m.log.debug("Showing trickplay bar")
+
+        ' Show the thumbnail window
+        if m.thumbWindow <> invalid
+            m.trickPlayBar.appendChild(m.thumbWindow)
+        end if
+    end if
+end sub
+
+sub onSeekEnded()
+    m.log.debug("onSeekEnded called")
+    if m.top.enableTrickPlay
+        m.log.debug("Hiding trickplay bar")
+        m.top.trickPlayBar.visible = false
+    end if
+end sub
+
+sub onDurationAvailable()
+    if m.top.duration > 0
+        m.log.debug("Duration available:", m.top.duration, "loading trickplay images")
+        loadTrickPlayImages()
+    end if
+end sub
+
+sub loadTrickPlayImages()
+    m.log.debug("Starting loadTrickPlayImages")
+
+    if m.loadTask = invalid
+        m.loadTask = createObject("roSGNode", "LoadTrickPlayImagesTask")
+        m.loadTask.observeField("imagePath", "onTrickPlayImagesLoaded")
+
+        ' Get server URL from global state
+        if m.global.session <> invalid and m.global.session.server <> invalid
+            serverUrl = m.global.session.server.url
+            m.log.debug("Setting server URL:", serverUrl)
+            m.loadTask.serverUrl = serverUrl  ' Note the camelCase
+        end if
+
+        ' Try to get video ID from content
+        if m.top.content <> invalid
+            videoId = invalid
+
+            ' Try to extract ID from URL if present
+            if m.top.content.url <> invalid
+                urlStr = m.top.content.url
+                ' Look for pattern /videos/ID/master.m3u8
+                idRegex = CreateObject("roRegex", "\/videos\/([^\/]+)\/", "i")
+                match = idRegex.Match(urlStr)
+                if match.Count() > 1
+                    videoId = match[1]
+                    m.log.debug("Extracted video ID from URL:", videoId)
+                end if
+            end if
+
+            if videoId <> invalid
+                m.log.debug("Setting video ID:", videoId)
+                m.loadTask.videoId = videoId
+            else
+                m.log.error("Could not find video ID in content")
+            end if
+        else
+            m.log.error("No content object available")
+        end if
+
+        m.loadTask.width = 320
+    end if
+
+    ' Calculate total number of thumbnails based on video duration
+    if m.top.duration > 0
+        m.totalThumbs = Int(m.top.duration / 10) + 1
+        m.log.debug("Total thumbnails:", m.totalThumbs.ToStr())
+    end if
+
+    ' Start the task
+    m.loadTask.control = "RUN"
+end sub
+
+sub onTrickPlayImageLoaded()
+    m.log.debug("Trickplay image loaded callback")
+    if m.loadTask.imagePath <> invalid
+        m.log.debug("Setting sprite sheet URI to:", m.loadTask.imagePath)
+        m.spriteSheet.uri = m.loadTask.imagePath
+    end if
+end sub
+
+sub updateTrickPlayThumbnail(position as Float)
+    if not m.top.enableTrickPlay then return
+    if m.spriteSheet = invalid then return
+
+    thumbnailIndex = Int(position / 10) ' One thumbnail every 10 seconds
+    if thumbnailIndex >= 0 and thumbnailIndex < m.totalThumbs
+        ' Calculate position in sprite sheet
+        row = Int(thumbnailIndex / m.thumbsPerRow)
+        col = thumbnailIndex MOD m.thumbsPerRow
+
+        ' Calculate offset in pixels
+        offsetX = col * m.thumbWidth
+        offsetY = row * m.thumbHeight
+
+        ' Update sprite sheet offset
+        cropStr = str(offsetX) + "," + str(offsetY) + "," + str(m.thumbWidth) + "," + str(m.thumbHeight)
+        m.spriteSheet.uri = m.loadTask.imagePath + "#" + cropStr
+    end if
 end sub
 
 ' handleChapterSkipAction: Handles user command to skip chapters in playing video
@@ -485,6 +700,8 @@ sub onVideoContentLoaded()
 
     m.top.setFocus(true)
     m.top.control = "play"
+    m.log.debug("Video content loaded, loading trickplay images")
+    loadTrickPlayImages()
 end sub
 
 ' populateChapterMenu: ' Parse chapter data from API and appeand to chapter list menu
@@ -773,119 +990,94 @@ function availSubtitleTrackIdx(tracknameToFind as string) as integer
     return -1
 end function
 
-function onKeyEvent(key as string, press as boolean) as boolean
+' Change from function to sub since we're not returning anything
+sub updateTrickPlayUI(currentPos as Float, newPos as Float)
+    if m.top.duration <= 0 then return
+    m.log.debug("Updating trickplay UI for position:", newPos.ToStr())
 
-    ' Keypress handler while user is inside the chapter menu
-    if m.chapterMenu.hasFocus()
-        if not press then return false
-
-        if key = "OK"
-            focusedChapter = m.chapterMenu.itemFocused
-            selectedChapter = m.chapterMenu.content.getChild(focusedChapter)
-            seekTime = selectedChapter.playstart
-
-            ' Don't seek if user clicked on No Chapter Data
-            if seekTime = m.playbackEnum.null then return true
-
-            m.top.seek = seekTime
-            return true
-        end if
-
-        if key = "back" or key = "replay"
-            m.chapterList.visible = false
-            m.osd.showChapterList = false
-            m.chapterMenu.setFocus(false)
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
-            return true
-        end if
-
-        if key = "play"
-            handleVideoPlayPauseAction()
-        end if
-
-        return true
+    ' Update time labels
+    if m.currentTimeLabel <> invalid
+        m.currentTimeLabel.text = formatTimeFromSeconds(newPos)
+    end if
+    if m.totalTimeLabel <> invalid
+        m.totalTimeLabel.text = formatTimeFromSeconds(m.top.duration)
     end if
 
-    if key = "OK" and m.nextEpisodeButton.hasfocus() and not m.top.trickPlayBar.visible
-        m.top.control = "stop"
-        m.top.state = "finished"
-        session.video.Delete()
-        hideNextEpisodeButton()
-        return true
+    ' Update progress indicator
+    if m.progressIndicator <> invalid and m.top.duration > 0
+        progress = newPos / m.top.duration
+        indicatorX = 50 + (1820 * progress)
+        m.progressIndicator.translation = [indicatorX, 995]
+    end if
+
+    ' Update thumbnail if available
+    if m.spriteSheet <> invalid and m.loadTask <> invalid and m.loadTask.imagePath <> "" and m.totalThumbs > 0
+        thumbnailIndex = Int(newPos / 10)
+        m.log.debug("Updating thumbnail for index:", thumbnailIndex.ToStr())
+
+        if thumbnailIndex >= 0 and thumbnailIndex < m.totalThumbs
+            row = Int(thumbnailIndex / m.thumbsPerRow)
+            col = thumbnailIndex MOD m.thumbsPerRow
+            offsetX = col * m.thumbWidth
+            offsetY = row * m.thumbHeight
+
+            ' Update sprite sheet with proper scaling
+            cropStr = str(offsetX) + "," + str(offsetY) + "," + str(m.thumbWidth) + "," + str(m.thumbHeight)
+            m.spriteSheet.uri = m.loadTask.imagePath + "#" + cropStr
+
+            ' Ensure sprite is visible
+            m.spriteSheet.visible = true
+            m.log.debug("Updated sprite sheet URI:", m.spriteSheet.uri)
+        end if
+    end if
+end sub
+
+' Renamed to avoid conflict with existing formatTime function
+function formatTimeFromSeconds(seconds as Float) as string
+    minutes = Int(seconds / 60)
+    remainingSeconds = Int(seconds MOD 60)
+    if remainingSeconds < 10
+        return minutes.ToStr() + ":0" + remainingSeconds.ToStr()
     else
-        'Hide Next Episode Button
-        if m.nextEpisodeButton.opacity > 0 or m.nextEpisodeButton.hasFocus()
-            m.nextEpisodeButton.opacity = 0
-            m.nextEpisodeButton.setFocus(false)
-            m.top.setFocus(true)
-        end if
+        return minutes.ToStr() + ":" + remainingSeconds.ToStr()
     end if
+end function
 
-    if not press then return false
+function onKeyEvent(key as string, press as boolean) as boolean
+    m.log.debug("Key pressed:", key, "Press:", press)
 
-    if key = "down" and not m.top.trickPlayBar.visible
-        if not m.LoadMetaDataTask.isIntro
-            ' Don't allow user to open menu prior to video loading
-            if not stateAllowsOSD() then return true
+    if press
+        if key = "right" or key = "left"
+            m.log.debug("Seek key detected:", key)
+            currentPos = m.top.position
+            seekDelta = key = "right" ? 10 : -10
+            newPos = currentPos + seekDelta
 
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
-            return true
-        end if
-
-    else if key = "up" and not m.top.trickPlayBar.visible
-        if not m.LoadMetaDataTask.isIntro
-            ' Don't allow user to open menu prior to video loading
-            if not stateAllowsOSD() then return true
-
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
-            return true
-        end if
-
-    else if key = "OK" and not m.top.trickPlayBar.visible
-        if not m.LoadMetaDataTask.isIntro
-            ' Don't allow user to open menu prior to video loading
-            if not stateAllowsOSD() then return true
-
-            ' Show OSD, but don't pause video
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
-            return true
-        end if
-
-        return false
-    end if
-
-    ' Disable OSD for intro videos
-    if not m.LoadMetaDataTask.isIntro
-        if key = "play" and not m.top.trickPlayBar.visible
-
-            ' Don't allow user to open menu prior to video loading
-            if not stateAllowsOSD() then return true
-
-            ' If video is paused, resume it and don't show OSD
-            if m.top.state = "paused"
-                m.top.control = "resume"
-                return true
+            if newPos < 0
+                newPos = 0
+            else if m.top.duration > 0 and newPos > m.top.duration
+                newPos = m.top.duration
             end if
 
-            ' Pause video and show OSD
-            m.top.control = "pause"
-            m.osd.visible = true
-            m.osd.hasFocus = true
-            m.osd.setFocus(true)
+            m.log.debug("Seeking from", currentPos.ToStr(), "to", newPos.ToStr())
+
+            ' Show trickplay UI
+            m.trickplayGroup.visible = true
+
+            ' Update UI before seeking
+            updateTrickPlayUI(currentPos, newPos)
+
+            ' Perform seek
+            m.top.seek = newPos
             return true
         end if
-    end if
-
-    if key = "back"
-        m.top.control = "stop"
-        session.video.Delete()
+    else ' Key release
+        if key = "right" or key = "left"
+            m.log.debug("Seek key released:", key)
+            ' Hide trickplay UI after a short delay
+            m.trickplayGroup.visible = false
+            return true
+        end if
     end if
 
     return false

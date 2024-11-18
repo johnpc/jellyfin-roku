@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="LoadTrickPlayTask" extends="Task">
+    <interface>
+        <field id="baseUrl" type="string" />
+        <field id="videoId" type="string" />
+        <field id="authToken" type="string" />
+        <field id="imagePath" type="string" />
+    </interface>
+</component> 

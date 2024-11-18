@@ -1,0 +1,33 @@
+' Create new file: components/video/LoadTrickPlayTask.bs
+sub init()
+    m.top.functionName = "loadTrickPlayImage"
+end sub
+
+sub loadTrickPlayImage()
+    baseUrl = m.top.baseUrl
+    videoId = m.top.videoId
+    authToken = m.top.authToken
+
+    print "Loading trickplay image from: " + baseUrl + "/Videos/" + videoId + "/Trickplay/320/0.jpg"
+
+    ' Create URL transfer object for authentication
+    urlTransfer = createObject("roUrlTransfer")
+    urlTransfer.SetCertificatesFile("common:/certs/ca-bundle.crt")
+    urlTransfer.AddHeader("X-Emby-Token", authToken)
+    urlTransfer.InitClientCertificates()
+
+    ' Get sprite sheet URL
+    spriteUrl = baseUrl + "/Videos/" + videoId + "/Trickplay/320/0.jpg"
+    urlTransfer.SetUrl(spriteUrl)
+
+    ' Download the image as binary data
+    response = urlTransfer.GetToFile("tmp:/trickplay_sprite.jpg")
+
+    if response
+        print "Trickplay image downloaded successfully"
+        m.top.imagePath = "tmp:/trickplay_sprite.jpg"
+    else
+        print "Failed to download trickplay image"
+        m.top.imagePath = invalid
+    end if
+end sub
